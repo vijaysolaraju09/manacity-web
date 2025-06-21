@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../api/client";
 import "../Shops.scss";
 
 interface Shop {
@@ -19,7 +19,7 @@ const Shops = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("/api/shops").then((res) => setShops(res.data));
+    api.get("/shops").then((res) => setShops(res.data));
   }, []);
 
   const filteredShops = shops.filter((shop) => {
