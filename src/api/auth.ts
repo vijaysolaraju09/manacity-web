@@ -1,5 +1,5 @@
 import api from './client';
-import { UserState } from '../store/slices/userSlice';
+import type { UserState } from '../store/slices/userSlice';
 
 
 interface Credentials {
