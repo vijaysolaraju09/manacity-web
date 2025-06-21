@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import api from "../../api/client";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../store/slices/cartSlice";
 import "../ShopDetails.scss";
@@ -30,7 +30,7 @@ const ShopDetails = () => {
   const [shop, setShop] = useState<Shop | null>(null);
 
   useEffect(() => {
-    axios.get(`/api/shops/${id}`).then((res) => setShop(res.data));
+    api.get(`/shops/${id}`).then((res) => setShop(res.data));
   }, [id]);
 
   if (!shop) return <div className="shop-details">Loading...</div>;

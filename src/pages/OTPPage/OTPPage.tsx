@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { verifyOtp, resendOtp as resendOtpApi } from '../../api/auth';
 import './OtpPage.scss';
 
 const OtpPage = () => {
@@ -20,17 +21,29 @@ const OtpPage = () => {
     }
   };
 
-  const handleVerify = () => {
+  const handleVerify = async () => {
     const code = otp.join('');
     if (code.length === 4) {
-      // TODO: Send OTP to server for verification
-      navigate('/profile'); // Example: Redirect to profile after verification
+      try {
+        await verifyOtp(phone, code);
+        navigate('/profile');
+      } catch (err) {
+        /* eslint no-console: off */
+        console.error(err);
+        alert('OTP verification failed');
+      }
     }
   };
 
-  const resendOtp = () => {
-    // TODO: Resend OTP to the phone number
-    alert(`OTP resent to ${phone}`);
+  const resendOtp = async () => {
+    try {
+      await resendOtpApi(phone);
+      alert(`OTP resent to ${phone}`);
+    } catch (err) {
+      /* eslint no-console: off */
+      console.error(err);
+      alert('Failed to resend OTP');
+    }
   };
 
   return (

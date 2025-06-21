@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../api/client";
 import "../EventDetails.scss";
 
 interface Event {
@@ -20,7 +20,7 @@ const EventDetails = () => {
   const [countdown, setCountdown] = useState<string>("");
 
   useEffect(() => {
-    axios.get(`/api/events/${id}`).then((res) => {
+    api.get(`/events/${id}`).then((res) => {
       setEvent(res.data);
       startCountdown(res.data.date);
     });
