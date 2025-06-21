@@ -27,3 +27,11 @@ export async function login(creds: Credentials): Promise<UserState> {
 export async function signup(data: SignupData): Promise<void> {
   await api.post('/signup', data);
 }
+
+export async function verifyOtp(phone: string, code: string): Promise<void> {
+  await api.post('/verify-otp', { phone, code });
+}
+
+export async function resendOtp(phone: string): Promise<void> {
+  await api.post('/resend-otp', { phone });
+}

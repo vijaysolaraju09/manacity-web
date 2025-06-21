@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../api/client";
 import "../VerifiedUserDetails.scss";
 
 interface VerifiedUser {
@@ -18,7 +18,7 @@ const VerifiedUserDetails = () => {
   const [user, setUser] = useState<VerifiedUser | null>(null);
 
   useEffect(() => {
-    axios.get(`/api/verified-users/${id}`).then((res) => setUser(res.data));
+    api.get(`/verified-users/${id}`).then((res) => setUser(res.data));
   }, [id]);
 
   if (!user) return <div className="verified-user-details">Loading...</div>;

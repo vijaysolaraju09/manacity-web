@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../api/client";
 import "../ProductDetails.scss";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../store/cartSlice";
@@ -22,7 +22,7 @@ const ProductDetails = () => {
   const [product, setProduct] = useState<Product | null>(null);
 
   useEffect(() => {
-    axios.get(`/api/products/${id}`).then((res) => setProduct(res.data));
+    api.get(`/products/${id}`).then((res) => setProduct(res.data));
   }, [id]);
 
   if (!product) return <div className="product-details">Loading...</div>;
