@@ -1,12 +1,30 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LandingPage from "./pages/LandingPage/LandingPage";
-import LoginPage from "./pages/LoginPage/LoginPage";
-import SignupPage from "./pages/SignupPage/SignupPage";
-import "./styles/main.scss";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import LandingPage from './pages/LandingPage/LandingPage';
+import LoginPage from './pages/LoginPage/LoginPage';
+import SignupPage from './pages/SignupPage/SignupPage';
+import ProtectedRoute from './components/ProtectedRoute';
+import './styles/main.scss';
 // import OtpPage from "./pages/OTPPage/OTPPage";
-import Profile from "./pages/Profile/Profile";
+import Profile from './pages/Profile/Profile';
+import { setUser } from './store/slices/userSlice';
+import type { AppDispatch } from './store';
 
 function App() {
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    const stored = localStorage.getItem('user');
+    if (stored) {
+      try {
+        dispatch(setUser(JSON.parse(stored)));
+      } catch {
+        // ignore parsing errors
+      }
+    }
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
       <Routes>
@@ -14,7 +32,9 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         {/* <Route path="/verify-otp" element={<OtpPage />} /> */}
-        <Route path="/profile" element={<Profile />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/profile" element={<Profile />} />
+        </Route>
         {/* <Route path="/verified-users" element={<VerifiedUsers />} /> */}
         {/* <Route path="/special-shop" element={<SpecialShop />} /> */}
       </Routes>
