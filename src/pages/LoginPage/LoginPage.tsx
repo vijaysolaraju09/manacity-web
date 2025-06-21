@@ -1,14 +1,33 @@
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { login } from '../../api/auth';
+import { setUser } from '../../store/slices/userSlice';
+import type { AppDispatch } from '../../store';
 import './LoginPage.scss';
 import logo from '../../assets/logo.png';
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const [form, setForm] = useState({ phone: '', password: '' });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: API login logic
+    try {
+      const user = await login(form);
+      dispatch(setUser(user));
+      navigate('/profile');
+    } catch (err) {
+      /* eslint no-console: off */
+      console.error(err);
+      alert('Login failed');
+    }
   };
 
   return (
@@ -26,12 +45,26 @@ const LoginPage = () => {
         <form onSubmit={handleSubmit}>
           <label>
             Phone Number
-            <input type="tel" placeholder="Enter your phone" required />
+            <input
+              type="tel"
+              name="phone"
+              placeholder="Enter your phone"
+              value={form.phone}
+              onChange={handleChange}
+              required
+            />
           </label>
 
           <label>
             Password
-            <input type="password" placeholder="Enter your password" required />
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+              value={form.password}
+              onChange={handleChange}
+              required
+            />
           </label>
 
           <motion.button

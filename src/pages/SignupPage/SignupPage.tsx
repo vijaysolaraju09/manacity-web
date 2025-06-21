@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import './SignupPage.scss';
 import logo from '../../assets/logo.png';
+import { signup } from '../../api/auth';
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -17,11 +18,16 @@ const SignupPage = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // ✅ Normally send signup data to backend here
-    // 🚀 Redirect to OTP verification screen
-    navigate('/verify-otp', { state: { phone: form.phone } });
+    try {
+      await signup(form);
+      navigate('/login');
+    } catch (err) {
+      /* eslint no-console: off */
+      console.error(err);
+      alert('Signup failed');
+    }
   };
 
   return (
