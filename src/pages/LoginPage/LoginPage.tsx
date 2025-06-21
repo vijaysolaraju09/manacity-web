@@ -12,6 +12,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const [form, setForm] = useState({ phone: '', password: '' });
+  const [errors, setErrors] = useState<{ phone?: string; password?: string; general?: string }>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -19,14 +20,26 @@ const LoginPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const newErrors: { phone?: string; password?: string } = {};
+    if (!/^\d{10,}$/.test(form.phone)) {
+      newErrors.phone = 'Enter a valid phone number';
+    }
+    if (form.password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) return;
+
     try {
       const user = await login(form);
       dispatch(setUser(user));
       navigate('/profile');
-    } catch (err) {
+    } catch (err: any) {
       /* eslint no-console: off */
       console.error(err);
-      alert('Login failed');
+      const message = err.response?.data?.message || 'Login failed';
+      setErrors({ general: message });
     }
   };
 
@@ -53,6 +66,7 @@ const LoginPage = () => {
               onChange={handleChange}
               required
             />
+            {errors.phone && <span className="error">{errors.phone}</span>}
           </label>
 
           <label>
@@ -65,7 +79,10 @@ const LoginPage = () => {
               onChange={handleChange}
               required
             />
+            {errors.password && <span className="error">{errors.password}</span>}
           </label>
+
+          {errors.general && <div className="error general">{errors.general}</div>}
 
           <motion.button
             type="submit"

@@ -55,6 +55,17 @@
         }
       }
 
+      .error {
+        color: red;
+        font-size: 0.85rem;
+        margin-top: 0.25rem;
+        display: block;
+      }
+
+      .error.general {
+        text-align: center;
+      }
+
       .signup-btn {
         @include button-style($primary-color, #fff);
         width: 100%;
