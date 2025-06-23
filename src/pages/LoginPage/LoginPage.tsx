@@ -36,8 +36,7 @@ const LoginPage = () => {
       dispatch(setUser(user));
       navigate('/profile');
     } catch (err: any) {
-      /* eslint no-console: off */
-      console.error(err);
+     
       const data = err.response?.data;
       const fieldErrors = data?.errors;
       if (fieldErrors && typeof fieldErrors === 'object') {
@@ -46,6 +45,7 @@ const LoginPage = () => {
         const message = data?.message || 'Login failed';
         setErrors({ general: message });
       }
+
     }
   };
 

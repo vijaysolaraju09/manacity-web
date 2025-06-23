@@ -33,8 +33,6 @@ const SignupPage = () => {
       await signup(form);
       navigate('/login');
     } catch (err: any) {
-      /* eslint no-console: off */
-      console.error(err);
       const data = err.response?.data;
       const fieldErrors = data?.errors;
       if (fieldErrors && typeof fieldErrors === 'object') {
@@ -43,6 +41,7 @@ const SignupPage = () => {
         const message = data?.message || 'Signup failed';
         setErrors({ general: message });
       }
+
     }
   };
 
