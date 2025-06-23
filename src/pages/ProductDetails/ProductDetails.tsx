@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../../api/client";
-import "../ProductDetails.scss";
+import "./ProductDetails.scss";
 import { useDispatch } from "react-redux";
-import { addToCart } from "../../store/cartSlice";
+import { addToCart } from "../../store/slices/cartSlice";
 
 interface Product {
   _id: string;
@@ -54,7 +54,16 @@ const ProductDetails = () => {
 
         <button
           className="add-cart-btn"
-          onClick={() => dispatch(addToCart(product))}
+          onClick={() =>
+            dispatch(
+              addToCart({
+                id: product._id,
+                name: product.name,
+                price: product.price,
+                quantity: 1,
+              })
+            )
+          }
         >
           Add to Cart
         </button>
