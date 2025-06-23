@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import api from "../../api/client";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../store/slices/cartSlice";
-import "../ShopDetails.scss";
+import "./ShopDetails.scss";
 
 interface Product {
   _id: string;
@@ -60,7 +60,18 @@ const ShopDetails = () => {
             />
             <h4>{product.name}</h4>
             <p>₹{product.price}</p>
-            <button onClick={() => dispatch(addToCart(product))}>
+            <button
+              onClick={() =>
+                dispatch(
+                  addToCart({
+                    id: product._id,
+                    name: product.name,
+                    price: product.price,
+                    quantity: 1,
+                  })
+                )
+              }
+            >
               Add to Cart
             </button>
           </div>

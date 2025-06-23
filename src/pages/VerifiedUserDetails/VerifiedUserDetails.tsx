@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../../api/client";
-import "../VerifiedUserDetails.scss";
+import "./VerifiedUserDetails.scss";
 
 interface VerifiedUser {
   _id: string;

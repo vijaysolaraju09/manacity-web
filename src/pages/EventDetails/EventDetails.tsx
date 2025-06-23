@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../../api/client";
-import "../EventDetails.scss";
+import "./EventDetails.scss";
 
 interface Event {
   _id: string;
