@@ -36,10 +36,16 @@ const LoginPage = () => {
       dispatch(setUser(user));
       navigate('/profile');
     } catch (err: any) {
-      /* eslint no-console: off */
-      console.error(err);
-      const message = err.response?.data?.message || 'Login failed';
-      setErrors({ general: message });
+     
+      const data = err.response?.data;
+      const fieldErrors = data?.errors;
+      if (fieldErrors && typeof fieldErrors === 'object') {
+        setErrors(fieldErrors);
+      } else {
+        const message = data?.message || 'Login failed';
+        setErrors({ general: message });
+      }
+
     }
   };
 
