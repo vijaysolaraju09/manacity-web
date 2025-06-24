@@ -56,4 +56,6 @@ export default tseslint.config({
 
 The frontend relies on a backend API defined by the `VITE_API_URL` environment variable. Copy `.env.example` to `.env` and adjust the URL to match your API server. All requests made through `src/api/client.ts` will use this base URL and automatically include the stored authentication token.
 
+Authentication endpoints are prefixed with `/auth`, so login, signup and related actions will request URLs like `${VITE_API_URL}/auth/login`.
+
 # manacity-web
