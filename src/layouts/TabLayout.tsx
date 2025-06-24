@@ -10,7 +10,7 @@ import {
   AiOutlineGift,
 } from "react-icons/ai";
 import { FaShoppingCart } from "react-icons/fa";
-import "../TabLayout.scss";
+import "./TabLayout.scss";
 
 const TabLayout = () => {
   const location = useLocation();

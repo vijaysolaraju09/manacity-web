@@ -34,7 +34,7 @@ const LoginPage = () => {
     try {
       const user = await login(form);
       dispatch(setUser(user));
-      navigate('/profile');
+      navigate('/home');
     } catch (err: any) {
      
       const data = err.response?.data;

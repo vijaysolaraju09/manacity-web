@@ -8,6 +8,13 @@ import ProtectedRoute from './components/ProtectedRoute';
 import './styles/main.scss';
 // import OtpPage from "./pages/OTPPage/OTPPage";
 import Profile from './pages/Profile/Profile';
+import Home from './pages/Home/Home';
+import Shops from './pages/Shops/Shops';
+import ShopDetails from './pages/ShopDetails/ShopDetails';
+import ProductDetails from './pages/ProductDetails/ProductDetails';
+import EventDetails from './pages/EventDetails/EventDetails';
+import VerifiedUserDetails from './pages/VerifiedUserDetails/VerifiedUserDetails';
+import TabLayout from './layouts/TabLayout';
 import { setUser } from './store/slices/userSlice';
 import type { AppDispatch } from './store';
 
@@ -33,7 +40,15 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         {/* <Route path="/verify-otp" element={<OtpPage />} /> */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/profile" element={<Profile />} />
+          <Route element={<TabLayout />}>
+            <Route path="/home" element={<Home />} />
+            <Route path="/shops" element={<Shops />} />
+            <Route path="/profile" element={<Profile />} />
+          </Route>
+          <Route path="/shops/:id" element={<ShopDetails />} />
+          <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/events/:id" element={<EventDetails />} />
+          <Route path="/verified-users/:id" element={<VerifiedUserDetails />} />
         </Route>
         {/* <Route path="/verified-users" element={<VerifiedUsers />} /> */}
         {/* <Route path="/special-shop" element={<SpecialShop />} /> */}
