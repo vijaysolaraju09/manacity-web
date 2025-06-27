@@ -169,7 +169,11 @@ const Section = ({ title, data, type, navigate, settings, loading }: SectionProp
             </>
           ) : (
             <>
-              <img src={item.image} alt={item.name || item.title} />
+              <img
+                src={item.image}
+                alt={item.name || item.title}
+                onError={(e) => (e.currentTarget.src = fallbackImage)}
+              />
               <div className="card-info">
                 <h4>{item.name || item.title}</h4>
                 {type === "event" && (
