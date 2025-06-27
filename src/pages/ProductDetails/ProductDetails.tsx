@@ -6,6 +6,7 @@ import Shimmer from "../../components/Shimmer";
 import "./ProductDetails.scss";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../store/slices/cartSlice";
+import fallbackImage from "../../assets/no-image.svg";
 
 interface Product {
   _id: string;
@@ -62,6 +63,7 @@ const ProductDetails = () => {
         }
         alt={product.name}
         className="product-img"
+        onError={(e) => (e.currentTarget.src = fallbackImage)}
       />
 
       <div className="info">

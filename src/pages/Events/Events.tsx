@@ -4,6 +4,7 @@ import api from "../../api/client";
 import { sampleEvents } from "../../data/sampleHomeData";
 import Shimmer from "../../components/Shimmer";
 import "./Events.scss";
+import fallbackImage from "../../assets/no-image.svg";
 
 interface EventItem {
   _id: string;
@@ -74,6 +75,7 @@ const Events = () => {
                   {ev.status && <span className={`status ${ev.status}`}>{ev.status}</span>}
                 </>
               )}
+              
             </div>
           );
         })}

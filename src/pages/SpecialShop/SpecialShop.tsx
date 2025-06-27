@@ -4,6 +4,7 @@ import api from "../../api/client";
 import { sampleSpecialProducts } from "../../data/sampleHomeData";
 import Shimmer from "../../components/Shimmer";
 import "./SpecialShop.scss";
+import fallbackImage from "../../assets/no-image.svg";
 
 interface Product {
   _id: string;
@@ -54,6 +55,7 @@ const SpecialShop = () => {
                 <h3>{product.name}</h3>
               </div>
             ))}
+        
       </div>
     </div>
   );
