@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../../api/client";
 import { sampleProduct } from "../../data/sampleData";
+import Shimmer from "../../components/Shimmer";
 import "./ProductDetails.scss";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../store/slices/cartSlice";
@@ -21,6 +22,7 @@ const ProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     api
@@ -31,11 +33,26 @@ const ProductDetails = () => {
         } else {
           setProduct(sampleProduct);
         }
+        setLoading(false);
       })
-      .catch(() => setProduct(sampleProduct));
+      .catch(() => {
+        setProduct(sampleProduct);
+        setLoading(false);
+      });
   }, [id]);
 
-  if (!product) return <div className="product-details">Loading...</div>;
+  if (loading || !product)
+    return (
+      <div className="product-details">
+        <Shimmer style={{ width: "100%", height: 300 }} className="rounded" />
+        <div className="info">
+          <Shimmer style={{ height: 32, width: "60%", margin: "1rem auto" }} />
+          <Shimmer style={{ height: 20, width: "40%", margin: "0 auto" }} />
+          <Shimmer style={{ height: 24, width: "30%", margin: "1rem auto" }} />
+          <Shimmer style={{ height: 80, width: "100%", marginTop: 16 }} />
+        </div>
+      </div>
+    );
 
   return (
     <div className="product-details">
