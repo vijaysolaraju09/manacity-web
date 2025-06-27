@@ -1,7 +1,10 @@
 import "./Home.scss";
 import { motion } from "framer-motion";
 import Slider from "react-slick";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../../api/client";
+import Shimmer from "../../components/Shimmer";
 import {
   sampleOffers,
   sampleVerifiedUsers,
@@ -13,6 +16,50 @@ import fallbackImage from "../../assets/no-image.svg";
 
 const Home = () => {
   const navigate = useNavigate();
+
+  const [offers, setOffers] = useState<any[]>([]);
+  const [users, setUsers] = useState<any[]>([]);
+  const [events, setEvents] = useState<any[]>([]);
+  const [specialProducts, setSpecialProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    Promise.all([
+      api.get("/offers"),
+      api.get("/verified-users"),
+      api.get("/events"),
+      api.get("/special-products"),
+    ])
+      .then(([offRes, userRes, evRes, spRes]) => {
+        setOffers(
+          Array.isArray(offRes.data) && offRes.data.length > 0
+            ? offRes.data
+            : sampleOffers
+        );
+        setUsers(
+          Array.isArray(userRes.data) && userRes.data.length > 0
+            ? userRes.data
+            : sampleVerifiedUsers
+        );
+        setEvents(
+          Array.isArray(evRes.data) && evRes.data.length > 0
+            ? evRes.data
+            : sampleEvents
+        );
+        setSpecialProducts(
+          Array.isArray(spRes.data) && spRes.data.length > 0
+            ? spRes.data
+            : sampleSpecialProducts
+        );
+      })
+      .catch(() => {
+        setOffers(sampleOffers);
+        setUsers(sampleVerifiedUsers);
+        setEvents(sampleEvents);
+        setSpecialProducts(sampleSpecialProducts);
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
   const settings = {
     dots: false,
@@ -47,46 +94,60 @@ const Home = () => {
       {/* Sections */}
       <Section
         title="Shop Offers"
-        data={sampleOffers}
+        data={offers}
         type="product"
         navigate={navigate}
         settings={settings}
+        loading={loading}
       />
       <Section
         title="Verified Users"
-        data={sampleVerifiedUsers}
+        data={users}
         type="user"
         navigate={navigate}
         settings={settings}
+        loading={loading}
       />
       <Section
         title="Events"
-        data={sampleEvents}
+        data={events}
         type="event"
         navigate={navigate}
         settings={settings}
+        loading={loading}
       />
       <Section
         title="Special Shop Products"
-        data={sampleSpecialProducts}
+        data={specialProducts}
         type="product"
         navigate={navigate}
         settings={settings}
+        loading={loading}
       />
     </div>
   );
 };
 
-const Section = ({ title, data, type, navigate, settings }: any) => (
+interface SectionProps {
+  title: string;
+  data: any[];
+  type: string;
+  navigate: any;
+  settings: any;
+  loading: boolean;
+}
+
+const Section = ({ title, data, type, navigate, settings, loading }: SectionProps) => (
   <div className="section">
     <h2>{title}</h2>
     <Slider {...settings}>
-      {data.map((item: any) => (
+      {(loading ? Array.from({ length: 3 }) : data).map((item: any, idx: number) => (
         <motion.div
-          key={item._id}
+          key={item?._id || idx}
           className="card"
           whileHover={{ scale: 1.03 }}
           onClick={() =>
+            !loading &&
             navigate(
               type === "product"
                 ? `/product/${item._id}`
@@ -96,20 +157,34 @@ const Section = ({ title, data, type, navigate, settings }: any) => (
             )
           }
         >
-          <img src={item.image} alt={item.name || item.title} onError={(e) => (e.currentTarget.src = fallbackImage)} />
-          <div className="card-info">
-            <h4>{item.name || item.title}</h4>
-            {type === "event" && (
-              <p>
-                Ends in{" "}
-                {Math.ceil(
-                  (new Date(item.startDate || item.date).getTime() - Date.now()) /
-                    (1000 * 60 * 60 * 24)
-                )}{" "}
-                days
-              </p>
-            )}
-          </div>
+          {loading ? (
+            <>
+              <Shimmer className="rounded" style={{ height: 150 }} />
+              <div className="card-info">
+                <Shimmer style={{ height: 16, marginTop: 8, width: "60%" }} />
+                {type === "event" && (
+                  <Shimmer style={{ height: 14, marginTop: 4, width: "40%" }} />
+                )}
+              </div>
+            </>
+          ) : (
+            <>
+              <img src={item.image} alt={item.name || item.title} />
+              <div className="card-info">
+                <h4>{item.name || item.title}</h4>
+                {type === "event" && (
+                  <p>
+                    Ends in {Math.ceil(
+                      (new Date(item.startDate || item.date).getTime() - Date.now()) /
+                        (1000 * 60 * 60 * 24)
+                    )}{" "}
+                    days
+                  </p>
+                )}
+              </div>
+            </>
+          )}
+       
         </motion.div>
       ))}
     </Slider>
