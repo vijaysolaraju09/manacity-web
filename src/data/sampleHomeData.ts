@@ -23,10 +23,20 @@ export const sampleVerifiedUsers = [
 
 export const sampleEvents = [
   {
-    _id: "e1",
-    title: "Summer Cricket League",
-    date: "2025-07-10",
+    _id: "event1",
+    title: "Community Cricket Match",
+    category: "Sports",
+    startDate: "2025-08-01T18:00:00Z",
+    status: "upcoming",
     image: "https://source.unsplash.com/300x200/?cricket",
+  },
+  {
+    _id: "event2",
+    title: "Town Quiz Show",
+    category: "Quiz",
+    startDate: "2025-07-15T10:00:00Z",
+    status: "upcoming",
+    image: "https://source.unsplash.com/300x200/?quiz",
   },
 ];
 

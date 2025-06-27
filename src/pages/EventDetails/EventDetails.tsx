@@ -10,7 +10,8 @@ interface Event {
   image?: string;
   category: string;
   location: string;
-  date: string;
+  startDate?: string;
+  date?: string;
   description: string;
   adminNote?: string;
 }
@@ -19,6 +20,9 @@ const EventDetails = () => {
   const { id } = useParams();
   const [event, setEvent] = useState<Event | null>(null);
   const [countdown, setCountdown] = useState<string>("");
+  const [leaderboard, setLeaderboard] = useState<Array<{ userId: string; name: string; score: number }>>([]);
+  const [registered, setRegistered] = useState(false);
+  const [message, setMessage] = useState<string>("");
 
   useEffect(() => {
     api
@@ -26,16 +30,23 @@ const EventDetails = () => {
       .then((res) => {
         if (res.data) {
           setEvent(res.data);
-          startCountdown(res.data.date);
+          startCountdown(res.data.startDate || res.data.date);
         } else {
           setEvent(sampleEvent);
-          startCountdown(sampleEvent.date);
+          startCountdown(sampleEvent.startDate || sampleEvent.date);
         }
       })
       .catch(() => {
         setEvent(sampleEvent);
-        startCountdown(sampleEvent.date);
+        startCountdown(sampleEvent.startDate || sampleEvent.date);
       });
+
+    api
+      .get(`/events/${id}/leaderboard`)
+      .then((res) => {
+        if (Array.isArray(res.data)) setLeaderboard(res.data);
+      })
+      .catch(() => setLeaderboard([]));
   }, [id]);
 
   const startCountdown = (eventDate: string) => {
@@ -51,6 +62,16 @@ const EventDetails = () => {
         setCountdown(`${days}d ${hrs}h ${mins}m`);
       }
     }, 1000);
+  };
+
+  const handleRegister = () => {
+    api
+      .post("/events/register", { eventId: id })
+      .then(() => {
+        setRegistered(true);
+        setMessage("Registered successfully!");
+      })
+      .catch(() => setMessage("Registration failed"));
   };
 
   if (!event) return <div className="event-details">Loading...</div>;
@@ -76,7 +97,35 @@ const EventDetails = () => {
           </div>
         )}
 
-        <button className="register-btn">Register Now</button>
+        <button className="register-btn" onClick={handleRegister} disabled={registered}>
+          {registered ? "Registered" : "Register Now"}
+        </button>
+
+        {message && <p className="message">{message}</p>}
+
+        {leaderboard.length > 0 && (
+          <div className="leaderboard">
+            <h3>Leaderboard</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Name</th>
+                  <th>Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                {leaderboard.map((entry, i) => (
+                  <tr key={entry.userId} className={i < 3 ? "winner" : ""}>
+                    <td>{i + 1}</td>
+                    <td>{entry.name}</td>
+                    <td>{entry.score}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   );

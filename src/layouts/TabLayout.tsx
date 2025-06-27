@@ -8,6 +8,7 @@ import {
   AiOutlineUser,
   AiOutlineUsergroupAdd,
   AiOutlineGift,
+  AiOutlineCalendar,
 } from "react-icons/ai";
 import { FaShoppingCart } from "react-icons/fa";
 import "./TabLayout.scss";
@@ -25,6 +26,7 @@ const TabLayout = () => {
       icon: <AiOutlineUsergroupAdd />,
       path: "/verified-users",
     },
+    { name: "Events", icon: <AiOutlineCalendar />, path: "/events" },
     { name: "Special", icon: <AiOutlineGift />, path: "/special-shop" },
     { name: "Profile", icon: <AiOutlineUser />, path: "/profile" },
   ];

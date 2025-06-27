@@ -102,7 +102,7 @@ const Section = ({ title, data, type, navigate, settings }: any) => (
               <p>
                 Ends in{" "}
                 {Math.ceil(
-                  (new Date(item.date).getTime() - Date.now()) /
+                  (new Date(item.startDate || item.date).getTime() - Date.now()) /
                     (1000 * 60 * 60 * 24)
                 )}{" "}
                 days
