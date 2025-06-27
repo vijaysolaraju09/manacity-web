@@ -7,6 +7,7 @@ import { setUser } from '../../store/slices/userSlice';
 import type { AppDispatch } from '../../store';
 import './LoginPage.scss';
 import logo from '../../assets/logo.png';
+import fallbackImage from '../../assets/no-image.svg';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -57,7 +58,7 @@ const LoginPage = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: 'easeOut' }}
       >
-        <img src={logo} alt="Manacity Logo" className="logo" />
+        <img src={logo} alt="Manacity Logo" className="logo" onError={(e) => (e.currentTarget.src = fallbackImage)} />
 
         <h2>Login to Your Account</h2>
 

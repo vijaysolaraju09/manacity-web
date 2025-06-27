@@ -9,6 +9,7 @@ import {
   sampleSpecialProducts,
   banner,
 } from "../../data/sampleHomeData";
+import fallbackImage from "../../assets/no-image.svg";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ const Home = () => {
         transition={{ duration: 0.6 }}
         onClick={() => banner.link && navigate(banner.link)}
       >
-        <img src={banner.image} alt="Admin Update" />
+        <img src={banner.image} alt="Admin Update" onError={(e) => (e.currentTarget.src = fallbackImage)} />
         <div className="banner-text">
           <h3>{banner.title}</h3>
           <p>{banner.subtitle}</p>
@@ -95,7 +96,7 @@ const Section = ({ title, data, type, navigate, settings }: any) => (
             )
           }
         >
-          <img src={item.image} alt={item.name || item.title} />
+          <img src={item.image} alt={item.name || item.title} onError={(e) => (e.currentTarget.src = fallbackImage)} />
           <div className="card-info">
             <h4>{item.name || item.title}</h4>
             {type === "event" && (

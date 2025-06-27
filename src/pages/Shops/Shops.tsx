@@ -4,6 +4,7 @@ import api from "../../api/client";
 import { sampleShops } from "../../data/sampleData";
 import Shimmer from "../../components/Shimmer";
 import "./Shops.scss";
+import fallbackImage from "../../assets/no-image.svg";
 
 interface Shop {
   _id: string;
@@ -91,6 +92,7 @@ const Shops = () => {
                 <img
                   src={shop.image || "https://via.placeholder.com/150"}
                   alt={shop.name}
+                  onError={(e) => (e.currentTarget.src = fallbackImage)}
                 />
                 <h3>{shop.name}</h3>
                 <p>{shop.category}</p>

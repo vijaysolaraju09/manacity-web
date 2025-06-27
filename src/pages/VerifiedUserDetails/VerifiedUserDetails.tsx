@@ -4,6 +4,7 @@ import api from "../../api/client";
 import { sampleVerifiedUser } from "../../data/sampleData";
 import Shimmer from "../../components/Shimmer";
 import "./VerifiedUserDetails.scss";
+import fallbackImage from "../../assets/no-image.svg";
 
 interface VerifiedUser {
   _id: string;
@@ -63,6 +64,7 @@ const VerifiedUserDetails = () => {
             `https://ui-avatars.com/api/?name=${user.name}&background=random`
           }
           alt={user.name}
+          onError={(e) => (e.currentTarget.src = fallbackImage)}
         />
         <div className="info">
           <h2>{user.name}</h2>
