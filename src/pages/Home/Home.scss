@@ -1,5 +1,15 @@
+@import "../../styles/mixins";
+
 .home {
   padding: 1rem;
+
+  @include respond(md) {
+    padding: 2rem;
+  }
+
+  @include respond(lg) {
+    padding: 3rem;
+  }
 
   .banner {
     position: relative;
@@ -13,6 +23,14 @@
       width: 100%;
       height: 200px;
       object-fit: cover;
+
+      @include respond(md) {
+        height: 260px;
+      }
+
+      @include respond(lg) {
+        height: 320px;
+      }
     }
 
     .banner-text {
@@ -25,11 +43,19 @@
       h3 {
         font-size: 1.5rem;
         font-weight: bold;
+
+        @include respond(lg) {
+          font-size: 1.8rem;
+        }
       }
 
       p {
         font-size: 1rem;
         margin-top: 0.25rem;
+
+        @include respond(lg) {
+          font-size: 1.1rem;
+        }
       }
     }
   }
@@ -40,6 +66,10 @@
     h2 {
       margin-bottom: 1rem;
       font-size: 1.5rem;
+
+      @include respond(lg) {
+        font-size: 1.75rem;
+      }
     }
 
     .card {
@@ -55,6 +85,10 @@
         width: 100%;
         height: 150px;
         object-fit: cover;
+
+        @include respond(lg) {
+          height: 180px;
+        }
       }
 
       .card-info {

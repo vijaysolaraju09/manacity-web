@@ -52,6 +52,11 @@ const LoginPage = () => {
 
   return (
     <div className="login-page">
+      <div className="info-panel">
+        <img src={logo} alt="Manacity Logo" onError={(e) => (e.currentTarget.src = fallbackImage)} />
+        <h1>Welcome back!</h1>
+        <p>Sign in to continue exploring your city.</p>
+      </div>
       <motion.div
         className="form-card"
         initial={{ opacity: 0, y: 30 }}
