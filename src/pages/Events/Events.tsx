@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../../api/client";
 import { sampleEvents } from "../../data/sampleHomeData";
 import "./Events.scss";
+import fallbackImage from "../../assets/no-image.svg";
 
 interface EventItem {
   _id: string;
@@ -56,6 +57,7 @@ const Events = () => {
               <img
                 src={ev.banner || ev.image || "https://via.placeholder.com/300x200?text=Event"}
                 alt={ev.title || ev.name}
+                onError={(e) => (e.currentTarget.src = fallbackImage)}
               />
               <h3>{ev.title || ev.name}</h3>
               {ev.category && <p className="cat">{ev.category}</p>}

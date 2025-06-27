@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../../api/client";
 import { sampleSpecialProducts } from "../../data/sampleHomeData";
 import "./SpecialShop.scss";
+import fallbackImage from "../../assets/no-image.svg";
 
 interface Product {
   _id: string;
@@ -40,6 +41,7 @@ const SpecialShop = () => {
             <img
               src={product.image || "https://via.placeholder.com/200"}
               alt={product.name}
+              onError={(e) => (e.currentTarget.src = fallbackImage)}
             />
             <h3>{product.name}</h3>
           </div>

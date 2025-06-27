@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../../api/client";
 import { sampleVerifiedUsers } from "../../data/sampleHomeData";
 import "./VerifiedUsers.scss";
+import fallbackImage from "../../assets/no-image.svg";
 
 interface VerifiedUser {
   _id: string;
@@ -58,6 +59,7 @@ const VerifiedUsers = () => {
                     `https://ui-avatars.com/api/?name=${user.name}&background=random`
                   }
                   alt={user.name}
+                  onError={(e) => (e.currentTarget.src = fallbackImage)}
                 />
                 <h3>{user.name}</h3>
                 {user.profession && <p>{user.profession}</p>}

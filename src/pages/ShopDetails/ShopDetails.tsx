@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../../store/slices/cartSlice";
 import Shimmer from "../../components/Shimmer";
 import "./ShopDetails.scss";
+import fallbackImage from "../../assets/no-image.svg";
 
 interface Product {
   _id: string;
@@ -78,6 +79,7 @@ const ShopDetails = () => {
         <img
           src={shop.image || "https://via.placeholder.com/500x250"}
           alt={shop.name}
+          onError={(e) => (e.currentTarget.src = fallbackImage)}
         />
         <div className="info">
           <h2>{shop.name}</h2>
@@ -94,6 +96,7 @@ const ShopDetails = () => {
             <img
               src={product.image || "https://via.placeholder.com/200"}
               alt={product.name}
+              onError={(e) => (e.currentTarget.src = fallbackImage)}
             />
             <h4>{product.name}</h4>
             <p>₹{product.price}</p>

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import './SignupPage.scss';
 import logo from '../../assets/logo.png';
+import fallbackImage from '../../assets/no-image.svg';
 import { signup } from '../../api/auth';
 
 const SignupPage = () => {
@@ -53,7 +54,7 @@ const SignupPage = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
       >
-        <img src={logo} alt="Manacity Logo" className="logo" />
+        <img src={logo} alt="Manacity Logo" className="logo" onError={(e) => (e.currentTarget.src = fallbackImage)} />
         <h2>Create Your Account</h2>
 
         <form onSubmit={handleSubmit}>

@@ -4,6 +4,7 @@ import api from "../../api/client";
 import { sampleEvent } from "../../data/sampleData";
 import Shimmer from "../../components/Shimmer";
 import "./EventDetails.scss";
+import fallbackImage from "../../assets/no-image.svg";
 
 interface Event {
   _id: string;
@@ -96,6 +97,7 @@ const EventDetails = () => {
         src={event.image || "https://via.placeholder.com/600x300?text=Event"}
         alt={event.name}
         className="event-img"
+        onError={(e) => (e.currentTarget.src = fallbackImage)}
       />
       <div className="info">
         <h1>{event.name}</h1>
