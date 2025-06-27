@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../../api/client";
+import { sampleProduct } from "../../data/sampleData";
 import "./ProductDetails.scss";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../store/slices/cartSlice";
@@ -22,7 +23,16 @@ const ProductDetails = () => {
   const [product, setProduct] = useState<Product | null>(null);
 
   useEffect(() => {
-    api.get(`/products/${id}`).then((res) => setProduct(res.data));
+    api
+      .get(`/products/${id}`)
+      .then((res) => {
+        if (res.data) {
+          setProduct(res.data);
+        } else {
+          setProduct(sampleProduct);
+        }
+      })
+      .catch(() => setProduct(sampleProduct));
   }, [id]);
 
   if (!product) return <div className="product-details">Loading...</div>;

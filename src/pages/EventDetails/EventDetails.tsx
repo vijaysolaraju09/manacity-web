@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../../api/client";
+import { sampleEvent } from "../../data/sampleData";
 import "./EventDetails.scss";
 
 interface Event {
@@ -20,10 +21,21 @@ const EventDetails = () => {
   const [countdown, setCountdown] = useState<string>("");
 
   useEffect(() => {
-    api.get(`/events/${id}`).then((res) => {
-      setEvent(res.data);
-      startCountdown(res.data.date);
-    });
+    api
+      .get(`/events/${id}`)
+      .then((res) => {
+        if (res.data) {
+          setEvent(res.data);
+          startCountdown(res.data.date);
+        } else {
+          setEvent(sampleEvent);
+          startCountdown(sampleEvent.date);
+        }
+      })
+      .catch(() => {
+        setEvent(sampleEvent);
+        startCountdown(sampleEvent.date);
+      });
   }, [id]);
 
   const startCountdown = (eventDate: string) => {
