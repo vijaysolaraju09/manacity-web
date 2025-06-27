@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/client";
+import { sampleShops } from "../../data/sampleData";
 import "./Shops.scss";
 
 interface Shop {
@@ -19,7 +20,16 @@ const Shops = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    api.get("/shops").then((res) => setShops(res.data));
+    api
+      .get("/shops")
+      .then((res) => {
+        if (Array.isArray(res.data) && res.data.length > 0) {
+          setShops(res.data);
+        } else {
+          setShops(sampleShops);
+        }
+      })
+      .catch(() => setShops(sampleShops));
   }, []);
 
   const filteredShops = shops.filter((shop) => {

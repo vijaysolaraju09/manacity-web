@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../../api/client";
+import { sampleVerifiedUser } from "../../data/sampleData";
 import "./VerifiedUserDetails.scss";
 
 interface VerifiedUser {
@@ -18,7 +19,16 @@ const VerifiedUserDetails = () => {
   const [user, setUser] = useState<VerifiedUser | null>(null);
 
   useEffect(() => {
-    api.get(`/verified-users/${id}`).then((res) => setUser(res.data));
+    api
+      .get(`/verified-users/${id}`)
+      .then((res) => {
+        if (res.data) {
+          setUser(res.data);
+        } else {
+          setUser(sampleVerifiedUser);
+        }
+      })
+      .catch(() => setUser(sampleVerifiedUser));
   }, [id]);
 
   if (!user) return <div className="verified-user-details">Loading...</div>;
