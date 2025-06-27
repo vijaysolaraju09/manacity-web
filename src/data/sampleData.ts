@@ -49,7 +49,7 @@ export const sampleEvent = {
   name: 'Community Cricket Match',
   category: 'Sports',
   location: 'City Stadium',
-  date: '2025-08-01',
+  startDate: '2025-08-01T18:00:00Z',
   description: 'Join us for an exciting community cricket event!',
   adminNote: 'Registration closes a week before the event.',
   image: 'https://source.unsplash.com/600x300/?cricket',

@@ -16,6 +16,7 @@ import EventDetails from './pages/EventDetails/EventDetails';
 import VerifiedUserDetails from './pages/VerifiedUserDetails/VerifiedUserDetails';
 import VerifiedUsers from './pages/VerifiedUsers/VerifiedUsers';
 import SpecialShop from './pages/SpecialShop/SpecialShop';
+import Events from './pages/Events/Events';
 import TabLayout from './layouts/TabLayout';
 import { setUser } from './store/slices/userSlice';
 import type { AppDispatch } from './store';
@@ -46,6 +47,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/shops" element={<Shops />} />
             <Route path="/verified-users" element={<VerifiedUsers />} />
+            <Route path="/events" element={<Events />} />
             <Route path="/special-shop" element={<SpecialShop />} />
             <Route path="/profile" element={<Profile />} />
           </Route>
