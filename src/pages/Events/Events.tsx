@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/client";
 import { sampleEvents } from "../../data/sampleHomeData";
+import Shimmer from "../../components/Shimmer";
 import "./Events.scss";
 
 interface EventItem {
@@ -18,6 +19,7 @@ interface EventItem {
 
 const Events = () => {
   const [events, setEvents] = useState<EventItem[]>([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,7 +32,8 @@ const Events = () => {
           setEvents(sampleEvents);
         }
       })
-      .catch(() => setEvents(sampleEvents));
+      .catch(() => setEvents(sampleEvents))
+      .finally(() => setLoading(false));
   }, []);
 
   const getCountdown = (date: string) => {
@@ -45,22 +48,32 @@ const Events = () => {
     <div className="events">
       <h2>Events & Tournaments</h2>
       <div className="event-list">
-        {events.map((ev) => {
-          const date = ev.startDate || ev.date || "";
+        {(loading ? Array.from({ length: 4 }) : events).map((ev, i) => {
+          const date = ev?.startDate || ev?.date || "";
           return (
             <div
-              key={ev._id}
+              key={ev?._id || i}
               className="event-card"
-              onClick={() => navigate(`/events/${ev._id}`)}
+              onClick={() => !loading && navigate(`/events/${ev._id}`)}
             >
-              <img
-                src={ev.banner || ev.image || "https://via.placeholder.com/300x200?text=Event"}
-                alt={ev.title || ev.name}
-              />
-              <h3>{ev.title || ev.name}</h3>
-              {ev.category && <p className="cat">{ev.category}</p>}
-              {date && <p className="time">{getCountdown(date)}</p>}
-              {ev.status && <span className={`status ${ev.status}`}>{ev.status}</span>}
+              {loading ? (
+                <>
+                  <Shimmer className="rounded" style={{ height: 140 }} />
+                  <Shimmer style={{ height: 16, marginTop: 8, width: "70%" }} />
+                  <Shimmer style={{ height: 14, marginTop: 4, width: "40%" }} />
+                </>
+              ) : (
+                <>
+                  <img
+                    src={ev.banner || ev.image || "https://via.placeholder.com/300x200?text=Event"}
+                    alt={ev.title || ev.name}
+                  />
+                  <h3>{ev.title || ev.name}</h3>
+                  {ev.category && <p className="cat">{ev.category}</p>}
+                  {date && <p className="time">{getCountdown(date)}</p>}
+                  {ev.status && <span className={`status ${ev.status}`}>{ev.status}</span>}
+                </>
+              )}
             </div>
           );
         })}

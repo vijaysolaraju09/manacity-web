@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../../api/client";
 import { sampleEvent } from "../../data/sampleData";
+import Shimmer from "../../components/Shimmer";
 import "./EventDetails.scss";
 
 interface Event {
@@ -19,6 +20,7 @@ interface Event {
 const EventDetails = () => {
   const { id } = useParams();
   const [event, setEvent] = useState<Event | null>(null);
+  const [loading, setLoading] = useState(true);
   const [countdown, setCountdown] = useState<string>("");
   const [leaderboard, setLeaderboard] = useState<Array<{ userId: string; name: string; score: number }>>([]);
   const [registered, setRegistered] = useState(false);
@@ -39,7 +41,8 @@ const EventDetails = () => {
       .catch(() => {
         setEvent(sampleEvent);
         startCountdown(sampleEvent.startDate || sampleEvent.date);
-      });
+      })
+      .finally(() => setLoading(false));
 
     api
       .get(`/events/${id}/leaderboard`)
@@ -74,7 +77,18 @@ const EventDetails = () => {
       .catch(() => setMessage("Registration failed"));
   };
 
-  if (!event) return <div className="event-details">Loading...</div>;
+  if (loading || !event)
+    return (
+      <div className="event-details">
+        <Shimmer style={{ width: "100%", height: 300 }} className="rounded" />
+        <div className="info">
+          <Shimmer style={{ height: 32, width: "60%", margin: "1rem auto" }} />
+          <Shimmer style={{ height: 20, width: "40%", marginBottom: 16 }} />
+          <Shimmer style={{ height: 20, width: "40%", marginBottom: 16 }} />
+          <Shimmer style={{ height: 60, width: "100%" }} />
+        </div>
+      </div>
+    );
 
   return (
     <div className="event-details">

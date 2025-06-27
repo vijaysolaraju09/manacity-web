@@ -4,6 +4,7 @@ import api from "../../api/client";
 import { sampleShops } from "../../data/sampleData";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../store/slices/cartSlice";
+import Shimmer from "../../components/Shimmer";
 import "./ShopDetails.scss";
 
 interface Product {
@@ -29,6 +30,7 @@ const ShopDetails = () => {
   const dispatch = useDispatch();
 
   const [shop, setShop] = useState<Shop | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     api
@@ -39,11 +41,36 @@ const ShopDetails = () => {
         } else {
           setShop(sampleShops[0]);
         }
+        setLoading(false);
       })
-      .catch(() => setShop(sampleShops[0]));
+      .catch(() => {
+        setShop(sampleShops[0]);
+        setLoading(false);
+      });
   }, [id]);
 
-  if (!shop) return <div className="shop-details">Loading...</div>;
+  if (loading || !shop)
+    return (
+      <div className="shop-details">
+        <div className="header">
+          <Shimmer style={{ width: "100%", height: 250 }} className="rounded" />
+          <div className="info">
+            <Shimmer style={{ height: 24, width: "60%", margin: "0.5rem auto" }} />
+            <Shimmer style={{ height: 16, width: "40%" }} />
+          </div>
+        </div>
+        <h3 className="section-title">Products</h3>
+        <div className="product-list">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="product-card">
+              <Shimmer className="rounded" style={{ height: 120 }} />
+              <Shimmer style={{ height: 16, marginTop: 8 }} />
+              <Shimmer style={{ height: 16, width: "50%", marginBottom: 8 }} />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
 
   return (
     <div className="shop-details">
