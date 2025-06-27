@@ -3,11 +3,65 @@
 
 .login-page {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 2rem;
   min-height: 100vh;
   background: linear-gradient(to bottom right, #f0f6fb, #ffffff);
+
+  .info-panel {
+    display: none;
+  }
+
+  @include respond(md) {
+    flex-direction: row;
+    gap: 4rem;
+
+    .info-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      max-width: 320px;
+      text-align: left;
+
+      img {
+        width: 120px;
+        margin-bottom: 1rem;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+      }
+
+      p {
+        color: #555;
+      }
+    }
+
+    .form-card {
+      max-width: 420px;
+    }
+  }
+
+  @include respond(lg) {
+    gap: 6rem;
+
+    .info-panel {
+      img {
+        width: 140px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+    }
+
+    .form-card {
+      max-width: 480px;
+    }
+  }
 
   .form-card {
     width: 100%;

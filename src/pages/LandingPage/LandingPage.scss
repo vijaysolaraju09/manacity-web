@@ -10,15 +10,33 @@
   background: linear-gradient(to bottom right, #eef5f9, #ffffff);
   text-align: center;
 
+  @include respond(md) {
+    padding: 4rem;
+  }
+
+  @include respond(lg) {
+    padding: 6rem;
+  }
+
   .content {
     max-width: 600px;
     width: 100%;
     animation: fadeIn 1s ease-out;
 
+    @include respond(md) {
+      max-width: 700px;
+      text-align: left;
+    }
+
     .logo {
       width: 120px;
       margin: 0 auto 1.5rem;
       display: block;
+
+      @include respond(lg) {
+        width: 160px;
+        margin: 0 0 1.5rem;
+      }
     }
 
     h1 {
@@ -49,6 +67,10 @@
       @media (min-width: 600px) {
         flex-direction: row;
         justify-content: center;
+      }
+
+      @include respond(md) {
+        justify-content: flex-start;
       }
 
       button {
