@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../../api/client";
 import { sampleVerifiedUser } from "../../data/sampleData";
+import Shimmer from "../../components/Shimmer";
 import "./VerifiedUserDetails.scss";
 
 interface VerifiedUser {
@@ -17,6 +18,7 @@ interface VerifiedUser {
 const VerifiedUserDetails = () => {
   const { id } = useParams();
   const [user, setUser] = useState<VerifiedUser | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     api
@@ -27,11 +29,30 @@ const VerifiedUserDetails = () => {
         } else {
           setUser(sampleVerifiedUser);
         }
+        setLoading(false);
       })
-      .catch(() => setUser(sampleVerifiedUser));
+      .catch(() => {
+        setUser(sampleVerifiedUser);
+        setLoading(false);
+      });
   }, [id]);
 
-  if (!user) return <div className="verified-user-details">Loading...</div>;
+  if (loading || !user)
+    return (
+      <div className="verified-user-details">
+        <div className="header">
+          <Shimmer className="rounded" style={{ width: 120, height: 120 }} />
+          <div className="info">
+            <Shimmer style={{ height: 20, width: "60%", marginBottom: 8 }} />
+            <Shimmer style={{ height: 16, width: "40%" }} />
+          </div>
+        </div>
+        <div className="bio" style={{ marginTop: '2rem' }}>
+          <Shimmer style={{ height: 16, width: "80%", marginBottom: 6 }} />
+          <Shimmer style={{ height: 16, width: "90%" }} />
+        </div>
+      </div>
+    );
 
   return (
     <div className="verified-user-details">
