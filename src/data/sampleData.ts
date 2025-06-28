@@ -1,25 +1,35 @@
 export const sampleShops = [
   {
     _id: 'shop1',
-    name: 'Star Electronics',
-    category: 'Electronics',
+    name: 'Café Aroma',
+    category: 'Restaurant',
     location: 'Town Center',
-    address: '123 Market Street',
-    image: 'https://source.unsplash.com/400x300/?electronics-shop',
-    products: [
-      {
-        _id: 'prod1',
-        name: 'LED TV',
-        price: 12000,
-        image: 'https://source.unsplash.com/300x200/?tv',
-      },
-      {
-        _id: 'prod2',
-        name: 'Bluetooth Speaker',
-        price: 3500,
-        image: 'https://source.unsplash.com/300x200/?speaker',
-      },
-    ],
+    isOpen: true,
+    image: 'https://source.unsplash.com/400x300/?cafe,coffee',
+  },
+  {
+    _id: 'shop2',
+    name: 'Mechanix Garage',
+    category: 'Mechanic',
+    location: 'West End',
+    isOpen: false,
+    image: 'https://source.unsplash.com/400x300/?garage,mechanic',
+  },
+  {
+    _id: 'shop3',
+    name: 'Style Hub',
+    category: 'Fashion',
+    location: 'East Side',
+    isOpen: true,
+    image: 'https://source.unsplash.com/400x300/?fashion,store',
+  },
+  {
+    _id: 'shop4',
+    name: 'Green Grocery',
+    category: 'Grocery',
+    location: 'North Market',
+    isOpen: true,
+    image: 'https://source.unsplash.com/400x300/?grocery,shop',
   },
 ];
 
