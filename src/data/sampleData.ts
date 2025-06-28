@@ -4,6 +4,7 @@ export const sampleShops = [
     name: 'Café Aroma',
     category: 'Restaurant',
     location: 'Town Center',
+
     address: '123 Main St, Town Center',
     isOpen: true,
     image: 'https://source.unsplash.com/400x300/?cafe,coffee',
@@ -21,6 +22,7 @@ export const sampleShops = [
         image: 'https://source.unsplash.com/200x150/?cappuccino',
       },
     ],
+
   },
   {
     _id: 'shop2',
