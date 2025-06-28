@@ -3,13 +3,13 @@
 
 .profile {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  padding: 2rem;
+  padding: 2rem 1rem;
   min-height: 100vh;
   background: #f8faff;
 
-  .card {
+  .user-card {
     max-width: 420px;
     width: 100%;
     background: #fff;
@@ -22,34 +22,28 @@
       width: 80px;
       height: 80px;
       border-radius: 50%;
-      background: $primary-color;
-      color: white;
-      font-size: 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      object-fit: cover;
       margin: 0 auto 1rem;
     }
 
-    h2 {
-      font-size: 1.5rem;
+    .role-badge {
+      display: inline-block;
+      background: $primary-color;
+      color: #fff;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
       margin-bottom: 0.5rem;
     }
 
-    p {
-      font-size: 0.95rem;
-      color: #444;
-      margin: 0.3rem 0;
-    }
-
     .actions {
-      margin-top: 1.5rem;
+      margin-top: 1rem;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 0.5rem;
 
       button {
-        padding: 0.7rem 1rem;
+        padding: 0.6rem 1rem;
         font-size: 1rem;
         border-radius: 8px;
         border: none;
@@ -73,6 +67,56 @@
     }
   }
 
+  .profile-tabs {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 2rem;
+
+    .tab-buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+
+      button {
+        @include button-style(#eee, #333);
+        padding: 0.5rem 1rem;
+
+        &.active {
+          background: $primary-color;
+          color: #fff;
+        }
+      }
+    }
+
+    .card-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1rem;
+
+      .card {
+        background: #fff;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        text-align: center;
+
+        .card-actions {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 0.5rem;
+
+          button {
+            @include button-style($primary-color, #fff);
+            padding: 0.3rem 0.6rem;
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
+  }
+
   .modal {
     position: fixed;
     inset: 0;
@@ -86,6 +130,8 @@
       padding: 2rem;
       border-radius: 10px;
       text-align: center;
+      width: 90%;
+      max-width: 400px;
 
       h3 {
         margin-bottom: 1rem;
@@ -98,10 +144,11 @@
 
         label {
           text-align: left;
-          font-size: 0.95rem;
+          font-size: 0.9rem;
           font-weight: 600;
 
-          input {
+          input,
+          textarea {
             width: 100%;
             padding: 0.6rem;
             margin-top: 0.3rem;
@@ -120,20 +167,10 @@
           display: flex;
           justify-content: flex-end;
           gap: 1rem;
-          margin-top: 1rem;
 
           button {
-            padding: 0.6rem 1.2rem;
-            border-radius: 8px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 0.95rem;
-
-            &:first-child {
-              background: $primary-color;
-              color: #fff;
-            }
+            @include button-style($primary-color, #fff);
+            padding: 0.5rem 1rem;
 
             &.cancel {
               background: #eee;
@@ -143,20 +180,6 @@
                 background: #ddd;
               }
             }
-          }
-        }
-        textarea {
-          width: 100%;
-          padding: 0.6rem;
-          margin-top: 0.3rem;
-          border: 1px solid #ccc;
-          border-radius: 8px;
-          font-size: 1rem;
-          resize: vertical;
-
-          &:focus {
-            border-color: $primary-color;
-            outline: none;
           }
         }
       }
