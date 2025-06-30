@@ -5,10 +5,10 @@ import type { RootState } from "../store";
 import {
   AiFillHome,
   AiOutlineShop,
-  AiOutlineUser,
   AiOutlineUsergroupAdd,
   AiOutlineGift,
   AiOutlineCalendar,
+  AiOutlineUser,
 } from "react-icons/ai";
 import { FaShoppingCart } from "react-icons/fa";
 import "./TabLayout.scss";
@@ -28,7 +28,6 @@ const TabLayout = () => {
     },
     { name: "Events", icon: <AiOutlineCalendar />, path: "/events" },
     { name: "Special", icon: <AiOutlineGift />, path: "/special-shop" },
-    { name: "Profile", icon: <AiOutlineUser />, path: "/profile" },
   ];
 
   useEffect(() => {
@@ -37,6 +36,15 @@ const TabLayout = () => {
 
   return (
     <div className="tab-layout">
+      <header className="top-header">
+        <h1 className="logo" onClick={() => navigate('/home')}>Manacity</h1>
+        <button
+          className="profile-btn"
+          onClick={() => navigate('/profile')}
+        >
+          <AiOutlineUser />
+        </button>
+      </header>
       <main className="tab-content">
         <Outlet />
       </main>
