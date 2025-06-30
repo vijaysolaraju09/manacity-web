@@ -17,7 +17,11 @@ export const sampleVerifiedUsers = [
   {
     _id: "v1",
     name: "John Electrician",
-    image: "https://source.unsplash.com/300x200/?electrician",
+    profession: "Electrician",
+    location: "Town Center",
+    bio: "Experienced electrician available for all household needs.",
+    contact: "1234567890",
+    avatar: "https://source.unsplash.com/200x200/?electrician",
   },
 ];
 
