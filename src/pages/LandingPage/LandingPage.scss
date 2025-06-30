@@ -7,7 +7,7 @@
   align-items: center;
   min-height: 100vh;
   padding: 2rem;
-  background: linear-gradient(to bottom right, #eef5f9, #ffffff);
+  background: linear-gradient(135deg, $gradient-start, $gradient-middle, $gradient-end);
   text-align: center;
 
   @include respond(md) {
