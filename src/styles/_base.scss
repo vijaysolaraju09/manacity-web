@@ -1,7 +1,8 @@
 body {
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: $font-body;
   color: #111;
-  background-color: #f7f7f7;
+  background: linear-gradient(135deg, $gradient-start, $gradient-middle, $gradient-end);
+  min-height: 100vh;
   line-height: 1.5;
 }
 
@@ -11,10 +12,16 @@ h3,
 h4,
 h5,
 h6 {
+  font-family: $font-header;
   font-weight: 600;
   line-height: 1.2;
 }
 
 p {
   margin-bottom: 1rem;
+}
+
+.card {
+  @include glass-card;
+  padding: 1rem;
 }

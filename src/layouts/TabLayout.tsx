@@ -1,5 +1,6 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import type { RootState } from "../store";
 import {
@@ -36,7 +37,11 @@ const TabLayout = () => {
 
   return (
     <div className="tab-layout">
-      <header className="top-header">
+      <motion.header
+        className="top-header"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
         <h1 className="logo" onClick={() => navigate('/home')}>Manacity</h1>
         <button
           className="profile-btn"
@@ -44,20 +49,30 @@ const TabLayout = () => {
         >
           <AiOutlineUser />
         </button>
-      </header>
+      </motion.header>
       <main className="tab-content">
         <Outlet />
       </main>
 
       {/* Floating Cart */}
       {cartItems.length > 0 && (
-        <button className="floating-cart" onClick={() => navigate("/cart")}>
+        <motion.button
+          className="floating-cart"
+          onClick={() => navigate("/cart")}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
           <FaShoppingCart />
           <span className="count">{cartItems.length}</span>
-        </button>
+        </motion.button>
       )}
 
-      <nav className="tab-bar">
+      <motion.nav
+        className="tab-bar"
+        initial={{ y: 80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.4 }}
+      >
         {tabs.map((tab) => (
           <button
             key={tab.name}
@@ -68,7 +83,7 @@ const TabLayout = () => {
             <span>{tab.name}</span>
           </button>
         ))}
-      </nav>
+      </motion.nav>
     </div>
   );
 };

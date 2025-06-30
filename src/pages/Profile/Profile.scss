@@ -7,15 +7,13 @@
   align-items: center;
   padding: 2rem 1rem;
   min-height: 100vh;
-  background: #f8faff;
+  background: linear-gradient(135deg, $gradient-start, $gradient-middle, $gradient-end);
 
   .user-card {
     max-width: 420px;
     width: 100%;
-    background: #fff;
+    @include glass-card;
     padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
     text-align: center;
 
     .avatar {
@@ -96,10 +94,8 @@
       gap: 1rem;
 
       .card {
-        background: #fff;
+        @include glass-card;
         padding: 1rem;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         text-align: center;
 
         .card-actions {
@@ -126,9 +122,8 @@
     align-items: center;
 
     .modal-content {
-      background: white;
+      @include glass-card;
       padding: 2rem;
-      border-radius: 10px;
       text-align: center;
       width: 90%;
       max-width: 400px;
