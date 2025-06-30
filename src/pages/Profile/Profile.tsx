@@ -19,7 +19,7 @@ import {
   getFeedback,
 } from '../../api/profile';
 import type { ProductData } from '../../api/profile';
-import './Profile.scss';
+import styles from './Profile.module.scss';
 
 interface Order {
   _id: string;
@@ -157,7 +157,9 @@ const Profile = () => {
     }
   };
 
-  const tabs: Array<{ key: string; label: string }> = [{ key: 'overview', label: 'Overview' }];
+  const tabs: Array<{ key: string; label: string }> = [
+    { key: 'overview', label: 'Overview' },
+  ];
   if (user.role === 'business') {
     tabs.push(
       { key: 'products', label: 'Products' },
@@ -170,49 +172,65 @@ const Profile = () => {
     tabs.push({ key: 'orders', label: 'My Orders' });
   }
 
-  if (loadingUser) return <div className="profile">Loading...</div>;
+  const summary: Array<{ label: string; value: number }> = [];
+  summary.push({
+    label: 'Orders',
+    value: user.role === 'business' ? orders.length : myOrders.length,
+  });
+  if (user.role === 'business') summary.push({ label: 'Products', value: products.length });
+  if (user.role === 'verified') summary.push({ label: 'Requests', value: serviceRequests.length });
+
+  if (loadingUser) return <div className={styles.profile}>Loading...</div>;
 
   const avatar =
     (user as any).avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}`;
 
   return (
-    <div className="profile">
-      <motion.div
-        className="card user-card"
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
-        <img className="avatar" src={avatar} alt={user.name} />
+    <div className={styles.profile}>
+      <motion.div className={styles.header} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}>
+        <img className={styles.avatar} src={avatar} alt={user.name} />
         <h2>{user.name}</h2>
-        <span className="role-badge">{user.role}</span>
+        <span className={styles.roleBadge}>{user.role}</span>
         <p>{user.phone}</p>
         <p>{user.location}</p>
         {user.address && <p>{user.address}</p>}
-        <div className="actions">
+        <div className={styles.counts}>
+          {summary.map((s) => (
+            <div key={s.label} className={styles.item}>
+              <span>{s.value}</span>
+              <p>{s.label}</p>
+            </div>
+          ))}
+        </div>
+        <div className={styles.actions}>
           <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.96 }} onClick={() => setShowEdit(true)}>
             Edit Profile
           </motion.button>
-          <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.96 }} onClick={() => setShowVerifyModal(true)}>
-            Request Verification
-          </motion.button>
-          <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.96 }} onClick={() => setShowBusinessModal(true)}>
-            Request Business
-          </motion.button>
-          <motion.button className="logout" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.96 }} onClick={handleLogout}>
+          {user.role !== 'verified' && (
+            <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.96 }} onClick={() => setShowVerifyModal(true)}>
+              Request Verification
+            </motion.button>
+          )}
+          {user.role !== 'business' && (
+            <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.96 }} onClick={() => setShowBusinessModal(true)}>
+              Request Business
+            </motion.button>
+          )}
+          <motion.button className={styles.logout} whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.96 }} onClick={handleLogout}>
             Logout
           </motion.button>
         </div>
       </motion.div>
 
-      <div className="profile-tabs">
-        <div className="tab-buttons">
+      <div className={styles.tabs}>
+        <div className={styles.tabButtons}>
           {tabs.map((t) => (
             <button key={t.key} className={selectedTab === t.key ? 'active' : ''} onClick={() => setSelectedTab(t.key)}>
               {t.label}
             </button>
           ))}
         </div>
-        <div className="tab-content">
+        <div>
           <AnimatePresence mode="wait">
             {selectedTab === 'overview' && (
               <motion.div key="overview" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
@@ -222,12 +240,12 @@ const Profile = () => {
             {user.role === 'business' && selectedTab === 'products' && (
               <motion.div key="products" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                 <h3>My Products</h3>
-                <div className="card-list">
+                <div className={styles.grid}>
                   {products.map((p) => (
-                    <div key={p._id} className="card product-card">
+                    <div key={p._id} className={styles.card}>
                       <h4>{p.name}</h4>
                       <p>₹{p.price}</p>
-                      <div className="card-actions">
+                      <div className={styles.cardActions}>
                         <button onClick={() => handleProductUpdate(p._id!, p)}>Edit</button>
                         <button onClick={() => handleProductDelete(p._id!)}>Delete</button>
                       </div>
@@ -240,9 +258,9 @@ const Profile = () => {
             {user.role === 'business' && selectedTab === 'orders' && (
               <motion.div key="orders" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                 <h3>Order Requests</h3>
-                <div className="card-list">
+                <div className={styles.grid}>
                   {orders.map((o) => (
-                    <div key={o._id} className="card order-card">
+                    <div key={o._id} className={styles.card}>
                       <p>{o.customerName}</p>
                       <p>{o.status}</p>
                     </div>
@@ -253,9 +271,9 @@ const Profile = () => {
             {user.role === 'business' && selectedTab === 'feedback' && (
               <motion.div key="feedback" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                 <h3>Customer Feedback</h3>
-                <div className="card-list">
+                <div className={styles.grid}>
                   {feedback.map((f) => (
-                    <div key={f._id} className="card feedback-card">
+                    <div key={f._id} className={styles.card}>
                       <p>{f.message}</p>
                     </div>
                   ))}
@@ -265,11 +283,11 @@ const Profile = () => {
             {user.role === 'verified' && selectedTab === 'requests' && (
               <motion.div key="requests" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                 <h3>Service Requests</h3>
-                <div className="card-list">
+                <div className={styles.grid}>
                   {serviceRequests.map((r) => (
-                    <div key={r._id} className="card request-card">
+                    <div key={r._id} className={styles.card}>
                       <p>{r.userName}</p>
-                      <div className="card-actions">
+                      <div className={styles.cardActions}>
                         <button>Accept</button>
                         <button>Reject</button>
                       </div>
@@ -281,9 +299,9 @@ const Profile = () => {
             {user.role === 'verified' && selectedTab === 'history' && (
               <motion.div key="history" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                 <h3>Service History</h3>
-                <div className="card-list">
+                <div className={styles.grid}>
                   {history.map((h) => (
-                    <div key={h._id} className="card history-card">
+                    <div key={h._id} className={styles.card}>
                       <p>{h.title || h._id}</p>
                     </div>
                   ))}
@@ -293,9 +311,9 @@ const Profile = () => {
             {user.role !== 'business' && user.role !== 'verified' && selectedTab === 'orders' && (
               <motion.div key="myorders" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                 <h3>My Orders</h3>
-                <div className="card-list">
+                <div className={styles.grid}>
                   {myOrders.map((o) => (
-                    <div key={o._id} className="card order-card">
+                    <div key={o._id} className={styles.card}>
                       <p>{o.status}</p>
                     </div>
                   ))}
@@ -307,10 +325,10 @@ const Profile = () => {
       </div>
 
       {showEdit && (
-        <div className="modal">
-          <div className="modal-content">
+        <div className={styles.modal}>
+          <div className={styles.modalContent}>
             <h3>Edit Profile</h3>
-            <form onSubmit={handleEditSubmit} className="edit-form">
+            <form onSubmit={handleEditSubmit} className={styles.editForm}>
               <label>
                 Name
                 <input type="text" name="name" value={editForm.name} onChange={(e) => setEditForm({ ...editForm, name: e.target.value })} />
@@ -323,9 +341,9 @@ const Profile = () => {
                 Address
                 <input type="text" name="address" value={editForm.address} onChange={(e) => setEditForm({ ...editForm, address: e.target.value })} />
               </label>
-              <div className="modal-actions">
+              <div className={styles.modalActions}>
                 <button type="submit">Save</button>
-                <button type="button" className="cancel" onClick={() => setShowEdit(false)}>
+                <button type="button" className={styles.cancel} onClick={() => setShowEdit(false)}>
                   Cancel
                 </button>
               </div>
@@ -335,10 +353,10 @@ const Profile = () => {
       )}
 
       {showVerifyModal && (
-        <div className="modal">
-          <div className="modal-content">
+        <div className={styles.modal}>
+          <div className={styles.modalContent}>
             <h3>Request Verification</h3>
-            <form onSubmit={handleVerifySubmit} className="edit-form">
+            <form onSubmit={handleVerifySubmit} className={styles.editForm}>
               <label>
                 Profession
                 <input type="text" name="profession" value={verifyForm.profession} onChange={(e) => setVerifyForm({ ...verifyForm, profession: e.target.value })} />
@@ -347,9 +365,9 @@ const Profile = () => {
                 Bio
                 <textarea name="bio" rows={4} value={verifyForm.bio} onChange={(e) => setVerifyForm({ ...verifyForm, bio: e.target.value })} />
               </label>
-              <div className="modal-actions">
+              <div className={styles.modalActions}>
                 <button type="submit">Submit</button>
-                <button type="button" className="cancel" onClick={() => setShowVerifyModal(false)}>
+                <button type="button" className={styles.cancel} onClick={() => setShowVerifyModal(false)}>
                   Cancel
                 </button>
               </div>
@@ -359,10 +377,10 @@ const Profile = () => {
       )}
 
       {showBusinessModal && (
-        <div className="modal">
-          <div className="modal-content">
+        <div className={styles.modal}>
+          <div className={styles.modalContent}>
             <h3>Request Business Access</h3>
-            <form onSubmit={handleBusinessSubmit} className="edit-form">
+            <form onSubmit={handleBusinessSubmit} className={styles.editForm}>
               <label>
                 Business Name
                 <input type="text" name="name" value={businessForm.name} onChange={(e) => setBusinessForm({ ...businessForm, name: e.target.value })} />
@@ -379,9 +397,9 @@ const Profile = () => {
                 Address
                 <input type="text" name="address" value={businessForm.address} onChange={(e) => setBusinessForm({ ...businessForm, address: e.target.value })} />
               </label>
-              <div className="modal-actions">
+              <div className={styles.modalActions}>
                 <button type="submit">Submit</button>
-                <button type="button" className="cancel" onClick={() => setShowBusinessModal(false)}>
+                <button type="button" className={styles.cancel} onClick={() => setShowBusinessModal(false)}>
                   Cancel
                 </button>
               </div>
