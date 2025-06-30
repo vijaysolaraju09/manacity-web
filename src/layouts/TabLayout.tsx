@@ -73,10 +73,30 @@ const TabLayout = () => {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.4 }}
       >
+        <div className="desktop-extras">
+          <h1 className="sidebar-logo" onClick={() => navigate('/home')}>
+            Manacity
+          </h1>
+          {cartItems.length > 0 && (
+            <button
+              className="sidebar-cart"
+              onClick={() => navigate('/cart')}
+            >
+              <FaShoppingCart />
+              <span className="count">{cartItems.length}</span>
+            </button>
+          )}
+          <button
+            className="sidebar-profile"
+            onClick={() => navigate('/profile')}
+          >
+            <AiOutlineUser />
+          </button>
+        </div>
         {tabs.map((tab) => (
           <button
             key={tab.name}
-            className={location.pathname === tab.path ? "active" : ""}
+            className={location.pathname === tab.path ? 'active' : ''}
             onClick={() => navigate(tab.path)}
           >
             {tab.icon}
