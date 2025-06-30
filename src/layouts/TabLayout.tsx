@@ -86,6 +86,12 @@ const TabLayout = () => {
               <span className="count">{cartItems.length}</span>
             </button>
           )}
+          <button
+            className="sidebar-profile"
+            onClick={() => navigate('/profile')}
+          >
+            <AiOutlineUser />
+          </button>
         </div>
         {tabs.map((tab) => (
           <button
