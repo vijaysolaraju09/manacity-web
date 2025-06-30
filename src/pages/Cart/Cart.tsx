@@ -18,11 +18,10 @@ const Cart = () => {
           <div className={styles.list}>
             {items.map((it) => (
               <div key={it.id} className={styles.item}>
+                {it.image && <img src={it.image} alt={it.name} />}
                 <div className={styles.info}>
                   <h4>{it.name}</h4>
-                  <span>
-                    ₹{it.price} × {it.quantity}
-                  </span>
+                  <span>₹{it.price} × {it.quantity}</span>
                 </div>
                 <button onClick={() => dispatch(removeFromCart(it.id))}>
                   Remove

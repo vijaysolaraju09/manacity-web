@@ -106,6 +106,7 @@ const SpecialShop = () => {
                       name: p.name,
                       price: p.price,
                       quantity: 1,
+                      image: p.image,
                     })
                   )
                 }
