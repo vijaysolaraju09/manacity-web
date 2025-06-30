@@ -16,6 +16,7 @@ import EventDetails from './pages/EventDetails/EventDetails';
 import VerifiedUserDetails from './pages/VerifiedUserDetails/VerifiedUserDetails';
 import VerifiedUsers from './pages/VerifiedUsers/VerifiedUsers';
 import SpecialShop from './pages/SpecialShop/SpecialShop';
+import Cart from './pages/Cart/Cart';
 import Events from './pages/Events/Events';
 import TabLayout from './layouts/TabLayout';
 import { setUser } from './store/slices/userSlice';
@@ -55,6 +56,7 @@ function App() {
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/events/:id" element={<EventDetails />} />
           <Route path="/verified-users/:id" element={<VerifiedUserDetails />} />
+          <Route path="/cart" element={<Cart />} />
         </Route>
       </Routes>
     </BrowserRouter>
