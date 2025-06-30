@@ -48,6 +48,9 @@ export const sampleSpecialProducts = [
   {
     _id: "s1",
     name: "Festival Lights",
+    description: "Decorative lights to brighten any festival.",
+    price: 399,
+    category: "Gifts",
     image: "https://source.unsplash.com/300x200/?lights",
   },
 ];
