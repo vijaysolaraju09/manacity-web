@@ -16,6 +16,7 @@ import EventDetails from './pages/EventDetails/EventDetails';
 import VerifiedUserDetails from './pages/VerifiedUserDetails/VerifiedUserDetails';
 import VerifiedUsers from './pages/VerifiedUsers/VerifiedUsers';
 import SpecialShop from './pages/SpecialShop/SpecialShop';
+import Settings from './pages/Settings/Settings';
 import Cart from './pages/Cart/Cart';
 import Events from './pages/Events/Events';
 import TabLayout from './layouts/TabLayout';
@@ -51,6 +52,7 @@ function App() {
             <Route path="/events" element={<Events />} />
             <Route path="/special-shop" element={<SpecialShop />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/settings" element={<Settings />} />
           </Route>
           <Route path="/shops/:id" element={<ShopDetails />} />
           <Route path="/product/:id" element={<ProductDetails />} />
