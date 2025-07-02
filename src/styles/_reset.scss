@@ -31,8 +31,8 @@ body {
   width: 100%;
   line-height: 1.5;
   font-family: system-ui, sans-serif;
-  background-color: #fff;
-  color: #111;
+  background: var(--bg-color);
+  color: var(--text-color);
 }
 
 /* Remove list styles */
