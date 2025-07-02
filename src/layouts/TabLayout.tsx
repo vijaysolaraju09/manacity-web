@@ -23,12 +23,14 @@ const TabLayout = () => {
   const tabs = [
     { name: "Home", icon: <AiFillHome />, path: "/home" },
     { name: "Shops", icon: <AiOutlineShop />, path: "/shops" },
+    { name: "Order Now", icon: <FaMicrophone />, path: "/voice-order" },
     {
       name: "Verified",
       icon: <AiOutlineUsergroupAdd />,
       path: "/verified-users",
     },
     { name: "Events", icon: <AiOutlineCalendar />, path: "/events" },
+    { name: "Order Now", icon: <FaMicrophone />, path: "/voice-order" },
   ];
 
   const orderTab = {
@@ -120,6 +122,7 @@ const TabLayout = () => {
         </button>
       </div>
         {tabs.slice(0, 2).map((tab) => (
+
           <button
             key={tab.name}
             className={location.pathname === tab.path ? 'active' : ''}
@@ -139,6 +142,7 @@ const TabLayout = () => {
           <span>{orderTab.name}</span>
         </button>
         {tabs.slice(2).map((tab) => (
+
           <button
             key={tab.name}
             className={location.pathname === tab.path ? 'active' : ''}
@@ -146,6 +150,28 @@ const TabLayout = () => {
           >
             {tab.icon}
             <span>{tab.name}</span>
+          </button>
+        ))}
+        <button
+          className={`order-now ${
+            location.pathname === '/voice-order' ? 'active' : ''
+          }`}
+          onClick={() => navigate('/voice-order')}
+        >
+          <FaMicrophone />
+        </button>
+        {tabs.slice(2).map((tab) => (
+          <button
+            key={tab.name}
+            className={
+              `${location.pathname === tab.path ? 'active' : ''} ${
+                tab.path === '/voice-order' ? 'order-now' : ''
+              }`
+            }
+            onClick={() => navigate(tab.path)}
+          >
+            {tab.icon}
+            {tab.path !== '/voice-order' && <span>{tab.name}</span>}
           </button>
         ))}
       </motion.nav>
