@@ -23,6 +23,7 @@ const TabLayout = () => {
   const tabs = [
     { name: "Home", icon: <AiFillHome />, path: "/home" },
     { name: "Shops", icon: <AiOutlineShop />, path: "/shops" },
+    { name: "Order Now", icon: <FaMicrophone />, path: "/voice-order" },
     {
       name: "Verified",
       icon: <AiOutlineUsergroupAdd />,
@@ -117,7 +118,11 @@ const TabLayout = () => {
         {tabs.map((tab) => (
           <button
             key={tab.name}
-            className={location.pathname === tab.path ? 'active' : ''}
+            className={
+              `${location.pathname === tab.path ? 'active' : ''} ${
+                tab.path === '/voice-order' ? 'order-now' : ''
+              }`
+            }
             onClick={() => navigate(tab.path)}
           >
             {tab.icon}
