@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion';
+import { AiOutlineSetting } from 'react-icons/ai';
+import SettingsModal from '../../components/SettingsModal/SettingsModal';
 import type { RootState } from '../../store';
 import { setUser, clearUser } from '../../store/slices/userSlice';
 import {
@@ -42,6 +44,7 @@ const Profile = () => {
   const [showVerifyModal, setShowVerifyModal] = useState(false);
   const [verifyForm, setVerifyForm] = useState({ profession: '', bio: '' });
   const [showBusinessModal, setShowBusinessModal] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const [businessForm, setBusinessForm] = useState({
     name: '',
     category: '',
@@ -188,6 +191,13 @@ const Profile = () => {
   return (
     <div className={styles.profile}>
       <motion.div className={styles.header} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}>
+        <motion.button
+          className={styles.settingsBtn}
+          onClick={() => setShowSettings(true)}
+          whileHover={{ rotate: 90 }}
+        >
+          <AiOutlineSetting />
+        </motion.button>
         <img className={styles.avatar} src={avatar} alt={user.name} />
         <h2>{user.name}</h2>
         <span className={styles.roleBadge}>{user.role}</span>
@@ -216,9 +226,6 @@ const Profile = () => {
               Request Business
             </motion.button>
           )}
-          <motion.button className={styles.logout} whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.96 }} onClick={handleLogout}>
-            Logout
-          </motion.button>
         </div>
       </motion.div>
 
@@ -407,6 +414,12 @@ const Profile = () => {
           </div>
         </div>
       )}
+
+      <SettingsModal
+        open={showSettings}
+        onClose={() => setShowSettings(false)}
+        onLogout={handleLogout}
+      />
     </div>
   );
 };
