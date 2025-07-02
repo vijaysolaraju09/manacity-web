@@ -12,7 +12,7 @@ import {
   AiOutlineUser,
   AiOutlineSetting,
 } from "react-icons/ai";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart, FaMicrophone } from "react-icons/fa";
 import "./TabLayout.scss";
 
 const TabLayout = () => {
@@ -29,6 +29,7 @@ const TabLayout = () => {
       path: "/verified-users",
     },
     { name: "Events", icon: <AiOutlineCalendar />, path: "/events" },
+    { name: "Order Now", icon: <FaMicrophone />, path: "/voice-order" },
   ];
 
   useEffect(() => {
