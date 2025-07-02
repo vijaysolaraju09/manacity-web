@@ -1,16 +1,30 @@
 @import './variables';
 
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+
 body.theme-light {
-  background: #f5f5f5;
-  color: #111;
+  --bg-color: #fff;
+  --text-color: #000;
+  --card-color: #fff;
+  --button-bg: #eee;
+  --button-text: #333;
 }
 
 body.theme-dark {
-  background: #111;
-  color: #f5f5f5;
+  --bg-color: #000;
+  --text-color: #fff;
+  --card-color: #1a1a1a;
+  --button-bg: #333;
+  --button-text: #fff;
 }
 
 body.theme-colored {
-  background: linear-gradient(135deg, $gradient-start, $gradient-middle, $gradient-end);
-  color: #111;
+  --bg-color: linear-gradient(135deg, $gradient-start, $gradient-middle, $gradient-end);
+  --text-color: #fff;
+  --card-color: rgba(255, 255, 255, 0.2);
+  --button-bg: rgba(255, 255, 255, 0.8);
+  --button-text: #111;
 }

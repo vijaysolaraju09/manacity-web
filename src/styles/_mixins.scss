@@ -1,4 +1,4 @@
-@mixin button-style($bg, $color, $border: none) {
+@mixin button-style($bg: $button-bg, $color: $button-text, $border: none) {
   background: $bg;
   color: $color;
   border: $border;
@@ -16,7 +16,7 @@
 }
 
 @mixin glass-card {
-  background: rgba(255, 255, 255, 0.2);
+  background: $card-color;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.3);

@@ -5,7 +5,8 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background: linear-gradient(135deg, $gradient-start, $gradient-middle, $gradient-end);
+  background: var(--bg-color);
+  color: var(--text-color);
 
   .top-header {
     display: flex;
