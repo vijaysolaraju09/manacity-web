@@ -12,7 +12,7 @@ import {
   AiOutlineUser,
   AiOutlineSetting,
 } from "react-icons/ai";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart, FaMicrophone } from "react-icons/fa";
 import "./TabLayout.scss";
 
 const TabLayout = () => {
@@ -30,6 +30,12 @@ const TabLayout = () => {
     },
     { name: "Events", icon: <AiOutlineCalendar />, path: "/events" },
   ];
+
+  const orderTab = {
+    name: "Order Now",
+    icon: <FaMicrophone />,
+    path: "/voice-order",
+  };
 
   useEffect(() => {
     if (location.pathname === "/") navigate("/home");
@@ -113,7 +119,26 @@ const TabLayout = () => {
           <AiOutlineSetting />
         </button>
       </div>
-        {tabs.map((tab) => (
+        {tabs.slice(0, 2).map((tab) => (
+          <button
+            key={tab.name}
+            className={location.pathname === tab.path ? 'active' : ''}
+            onClick={() => navigate(tab.path)}
+          >
+            {tab.icon}
+            <span>{tab.name}</span>
+          </button>
+        ))}
+        <button
+          className={`order-now ${
+            location.pathname === orderTab.path ? 'active' : ''
+          }`}
+          onClick={() => navigate(orderTab.path)}
+        >
+          {orderTab.icon}
+          <span>{orderTab.name}</span>
+        </button>
+        {tabs.slice(2).map((tab) => (
           <button
             key={tab.name}
             className={location.pathname === tab.path ? 'active' : ''}
