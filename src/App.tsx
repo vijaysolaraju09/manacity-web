@@ -19,6 +19,7 @@ import SpecialShop from './pages/SpecialShop/SpecialShop';
 import Settings from './pages/Settings/Settings';
 import Cart from './pages/Cart/Cart';
 import Events from './pages/Events/Events';
+import VoiceOrder from './pages/VoiceOrder/VoiceOrder';
 import TabLayout from './layouts/TabLayout';
 import { setUser } from './store/slices/userSlice';
 import type { AppDispatch } from './store';
@@ -51,6 +52,7 @@ function App() {
             <Route path="/verified-users" element={<VerifiedUsers />} />
             <Route path="/events" element={<Events />} />
             <Route path="/special-shop" element={<SpecialShop />} />
+            <Route path="/voice-order" element={<VoiceOrder />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/settings" element={<Settings />} />
           </Route>
