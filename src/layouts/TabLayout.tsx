@@ -126,7 +126,7 @@ const TabLayout = () => {
             onClick={() => navigate(tab.path)}
           >
             {tab.icon}
-            <span>{tab.name}</span>
+            {tab.path !== '/voice-order' && <span>{tab.name}</span>}
           </button>
         ))}
       </motion.nav>
