@@ -10,6 +10,7 @@ import {
   AiOutlineGift,
   AiOutlineCalendar,
   AiOutlineUser,
+  AiOutlineSetting,
 } from "react-icons/ai";
 import { FaShoppingCart } from "react-icons/fa";
 import "./TabLayout.scss";
@@ -28,7 +29,6 @@ const TabLayout = () => {
       path: "/verified-users",
     },
     { name: "Events", icon: <AiOutlineCalendar />, path: "/events" },
-    { name: "Special", icon: <AiOutlineGift />, path: "/special-shop" },
   ];
 
   useEffect(() => {
@@ -43,29 +43,43 @@ const TabLayout = () => {
         animate={{ opacity: 1, y: 0 }}
       >
         <h1 className="logo" onClick={() => navigate('/home')}>Manacity</h1>
-        <button
-          className="profile-btn"
-          onClick={() => navigate('/profile')}
-        >
-          <AiOutlineUser />
-        </button>
+        <div className="actions">
+          {cartItems.length > 0 && (
+            <button
+              className="cart-btn"
+              onClick={() => navigate('/cart')}
+            >
+              <FaShoppingCart />
+              <span className="count">{cartItems.length}</span>
+            </button>
+          )}
+          <button
+            className="profile-btn"
+            onClick={() => navigate('/profile')}
+          >
+            <AiOutlineUser />
+          </button>
+          <button
+            className="settings-btn"
+            onClick={() => navigate('/settings')}
+          >
+            <AiOutlineSetting />
+          </button>
+        </div>
       </motion.header>
       <main className="tab-content">
         <Outlet />
       </main>
 
-      {/* Floating Cart */}
-      {cartItems.length > 0 && (
-        <motion.button
-          className="floating-cart"
-          onClick={() => navigate("/cart")}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <FaShoppingCart />
-          <span className="count">{cartItems.length}</span>
-        </motion.button>
-      )}
+
+      <motion.button
+        className="special-shop-btn"
+        onClick={() => navigate('/special-shop')}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <AiOutlineGift />
+      </motion.button>
 
       <motion.nav
         className="tab-bar"
@@ -77,22 +91,28 @@ const TabLayout = () => {
           <h1 className="sidebar-logo" onClick={() => navigate('/home')}>
             Manacity
           </h1>
-          {cartItems.length > 0 && (
-            <button
-              className="sidebar-cart"
-              onClick={() => navigate('/cart')}
-            >
-              <FaShoppingCart />
-              <span className="count">{cartItems.length}</span>
-            </button>
-          )}
+        {cartItems.length > 0 && (
           <button
-            className="sidebar-profile"
-            onClick={() => navigate('/profile')}
+            className="sidebar-cart"
+            onClick={() => navigate('/cart')}
           >
-            <AiOutlineUser />
+            <FaShoppingCart />
+            <span className="count">{cartItems.length}</span>
           </button>
-        </div>
+        )}
+        <button
+          className="sidebar-profile"
+          onClick={() => navigate('/profile')}
+        >
+          <AiOutlineUser />
+        </button>
+        <button
+          className="sidebar-settings"
+          onClick={() => navigate('/settings')}
+        >
+          <AiOutlineSetting />
+        </button>
+      </div>
         {tabs.map((tab) => (
           <button
             key={tab.name}
