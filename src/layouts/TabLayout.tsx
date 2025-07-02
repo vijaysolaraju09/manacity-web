@@ -33,6 +33,12 @@ const TabLayout = () => {
     { name: "Order Now", icon: <FaMicrophone />, path: "/voice-order" },
   ];
 
+  const orderTab = {
+    name: "Order Now",
+    icon: <FaMicrophone />,
+    path: "/voice-order",
+  };
+
   useEffect(() => {
     if (location.pathname === "/") navigate("/home");
   }, [location.pathname]);
@@ -116,6 +122,27 @@ const TabLayout = () => {
         </button>
       </div>
         {tabs.slice(0, 2).map((tab) => (
+
+          <button
+            key={tab.name}
+            className={location.pathname === tab.path ? 'active' : ''}
+            onClick={() => navigate(tab.path)}
+          >
+            {tab.icon}
+            <span>{tab.name}</span>
+          </button>
+        ))}
+        <button
+          className={`order-now ${
+            location.pathname === orderTab.path ? 'active' : ''
+          }`}
+          onClick={() => navigate(orderTab.path)}
+        >
+          {orderTab.icon}
+          <span>{orderTab.name}</span>
+        </button>
+        {tabs.slice(2).map((tab) => (
+
           <button
             key={tab.name}
             className={location.pathname === tab.path ? 'active' : ''}
