@@ -30,6 +30,7 @@ const TabLayout = () => {
       path: "/verified-users",
     },
     { name: "Events", icon: <AiOutlineCalendar />, path: "/events" },
+    { name: "Order Now", icon: <FaMicrophone />, path: "/voice-order" },
   ];
 
   useEffect(() => {
