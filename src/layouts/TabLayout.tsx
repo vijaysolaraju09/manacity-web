@@ -115,7 +115,25 @@ const TabLayout = () => {
           <AiOutlineSetting />
         </button>
       </div>
-        {tabs.map((tab) => (
+        {tabs.slice(0, 2).map((tab) => (
+          <button
+            key={tab.name}
+            className={location.pathname === tab.path ? 'active' : ''}
+            onClick={() => navigate(tab.path)}
+          >
+            {tab.icon}
+            <span>{tab.name}</span>
+          </button>
+        ))}
+        <button
+          className={`order-now ${
+            location.pathname === '/voice-order' ? 'active' : ''
+          }`}
+          onClick={() => navigate('/voice-order')}
+        >
+          <FaMicrophone />
+        </button>
+        {tabs.slice(2).map((tab) => (
           <button
             key={tab.name}
             className={
