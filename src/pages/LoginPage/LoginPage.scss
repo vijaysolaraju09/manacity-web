@@ -8,8 +8,7 @@
   align-items: center;
   padding: 2rem;
   min-height: 100vh;
-  background: var(--bg-color);
-  color: var(--text-color);
+  background: linear-gradient(135deg, $gradient-start, $gradient-middle, $gradient-end);
 
   .info-panel {
     display: none;
@@ -37,7 +36,7 @@
       }
 
       p {
-        color: var(--text-color);
+        color: #555;
       }
     }
 
@@ -79,7 +78,7 @@
 
     h2 {
       font-size: 1.6rem;
-      color: var(--text-color);
+      color: #222;
       margin-bottom: 1.5rem;
     }
 
@@ -145,7 +144,7 @@
     .back {
       margin-top: 1.5rem;
       font-size: 0.9rem;
-      color: var(--text-color);
+      color: #666;
       cursor: pointer;
 
       &:hover {

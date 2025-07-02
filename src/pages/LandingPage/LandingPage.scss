@@ -7,8 +7,7 @@
   align-items: center;
   min-height: 100vh;
   padding: 2rem;
-  background: var(--bg-color);
-  color: var(--text-color);
+  background: linear-gradient(135deg, $gradient-start, $gradient-middle, $gradient-end);
   text-align: center;
 
   @include respond(md) {
@@ -43,7 +42,7 @@
     h1 {
       font-size: 2.4rem;
       font-weight: 700;
-      color: var(--text-color);
+      color: #222;
 
       span {
         color: $primary-color;
@@ -56,7 +55,7 @@
 
     p {
       font-size: 1.1rem;
-      color: var(--text-color);
+      color: #555;
       margin: 1rem 0 2rem;
     }
 

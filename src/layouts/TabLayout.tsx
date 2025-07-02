@@ -28,6 +28,7 @@ const TabLayout = () => {
       path: "/verified-users",
     },
     { name: "Events", icon: <AiOutlineCalendar />, path: "/events" },
+    { name: "Special", icon: <AiOutlineGift />, path: "/special-shop" },
   ];
 
   useEffect(() => {
@@ -63,18 +64,6 @@ const TabLayout = () => {
         >
           <FaShoppingCart />
           <span className="count">{cartItems.length}</span>
-        </motion.button>
-      )}
-
-      {/* Floating Special Offers */}
-      {location.pathname !== '/special-shop' && (
-        <motion.button
-          className="floating-special"
-          onClick={() => navigate('/special-shop')}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <AiOutlineGift />
         </motion.button>
       )}
 
