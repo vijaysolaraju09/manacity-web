@@ -5,6 +5,7 @@ import './SignupPage.scss';
 import logo from '../../assets/logo.png';
 import fallbackImage from '../../assets/no-image.svg';
 import { signup } from '../../api/auth';
+import Loader from '../../components/Loader';
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ const SignupPage = () => {
     location: '',
   });
   const [errors, setErrors] = useState<{ name?: string; phone?: string; password?: string; location?: string; general?: string }>({});
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -31,6 +33,7 @@ const SignupPage = () => {
     if (Object.keys(newErrors).length > 0) return;
 
     try {
+      setLoading(true);
       await signup(form);
       navigate('/login');
     } catch (err: any) {
@@ -43,6 +46,8 @@ const SignupPage = () => {
         setErrors({ general: message });
       }
 
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -95,8 +100,9 @@ const SignupPage = () => {
             className="signup-btn"
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.96 }}
+            disabled={loading}
           >
-            Continue
+            {loading ? <Loader /> : 'Continue'}
           </motion.button>
         </form>
 

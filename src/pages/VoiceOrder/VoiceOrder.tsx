@@ -6,6 +6,7 @@ import api from '../../api/client';
 import { sampleShops } from '../../data/sampleData';
 import type { RootState } from '../../store';
 import styles from './VoiceOrder.module.scss';
+import Loader from '../../components/Loader';
 
 interface Product {
   _id: string;
@@ -32,6 +33,7 @@ const VoiceOrder = () => {
   const [transcript, setTranscript] = useState('');
   const [listening, setListening] = useState(false);
   const [matched, setMatched] = useState<MatchedItem[]>([]);
+  const [orderingId, setOrderingId] = useState<string>('');
   const [language, setLanguage] = useState('en-US');
   const recognitionRef = useRef<any>(null);
 
@@ -93,6 +95,7 @@ const VoiceOrder = () => {
 
   const handleOrder = async (item: MatchedItem) => {
     try {
+      setOrderingId(item.product._id);
       await api.post('/orders/place', {
         userId: user._id,
         productId: item.product._id,
@@ -107,6 +110,8 @@ const VoiceOrder = () => {
       alert('Order placed');
     } catch {
       alert('Failed to place order');
+    } finally {
+      setOrderingId('');
     }
   };
 
@@ -134,7 +139,12 @@ const VoiceOrder = () => {
             <p>Qty: {m.quantity}</p>
             <p>₹{m.product.price}</p>
             <p>{m.shop.name}</p>
-            <button onClick={() => handleOrder(m)}>Order</button>
+            <button
+              onClick={() => handleOrder(m)}
+              disabled={orderingId === m.product._id}
+            >
+              {orderingId === m.product._id ? <Loader /> : 'Order'}
+            </button>
           </motion.div>
         ))}
       </div>

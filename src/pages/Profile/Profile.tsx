@@ -20,6 +20,7 @@ import {
 } from '../../api/profile';
 import type { ProductData } from '../../api/profile';
 import styles from './Profile.module.scss';
+import Loader from '../../components/Loader';
 
 interface Order {
   _id: string;
@@ -62,6 +63,12 @@ const Profile = () => {
   const [myOrders, setMyOrders] = useState<Order[]>([]);
   const [interests, setInterests] = useState<any[]>([]);
 
+  // loading states
+  const [editLoading, setEditLoading] = useState(false);
+  const [verifyLoading, setVerifyLoading] = useState(false);
+  const [businessLoading, setBusinessLoading] = useState(false);
+  const [productActionId, setProductActionId] = useState<string>('');
+
   useEffect(() => {
     const loadUser = async () => {
       try {
@@ -102,58 +109,76 @@ const Profile = () => {
   const handleEditSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      setEditLoading(true);
       const updated = await updateProfile(editForm);
       dispatch(setUser(updated));
       setShowEdit(false);
     } catch {
       // ignore
+    } finally {
+      setEditLoading(false);
     }
   };
 
   const handleVerifySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      setVerifyLoading(true);
       await requestVerification(verifyForm);
       setShowVerifyModal(false);
     } catch {
       // ignore
+    } finally {
+      setVerifyLoading(false);
     }
   };
 
   const handleBusinessSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      setBusinessLoading(true);
       await requestBusiness(businessForm);
       setShowBusinessModal(false);
     } catch {
       // ignore
+    } finally {
+      setBusinessLoading(false);
     }
   };
 
   const handleProductAdd = async (data: ProductData) => {
     try {
+      setProductActionId('new');
       const p = await addProduct(data);
       setProducts([...products, p]);
     } catch {
       // ignore
+    } finally {
+      setProductActionId('');
     }
   };
 
   const handleProductUpdate = async (id: string, data: ProductData) => {
     try {
+      setProductActionId(id);
       await updateProduct(id, data);
       setProducts(products.map((p) => (p._id === id ? { ...p, ...data } : p)));
     } catch {
       // ignore
+    } finally {
+      setProductActionId('');
     }
   };
 
   const handleProductDelete = async (id: string) => {
     try {
+      setProductActionId(id);
       await deleteProduct(id);
       setProducts(products.filter((p) => p._id !== id));
     } catch {
       // ignore
+    } finally {
+      setProductActionId('');
     }
   };
 
@@ -246,13 +271,28 @@ const Profile = () => {
                       <h4>{p.name}</h4>
                       <p>₹{p.price}</p>
                       <div className={styles.cardActions}>
-                        <button onClick={() => handleProductUpdate(p._id!, p)}>Edit</button>
-                        <button onClick={() => handleProductDelete(p._id!)}>Delete</button>
+                        <button
+                          onClick={() => handleProductUpdate(p._id!, p)}
+                          disabled={productActionId === p._id}
+                        >
+                          {productActionId === p._id ? <Loader /> : 'Edit'}
+                        </button>
+                        <button
+                          onClick={() => handleProductDelete(p._id!)}
+                          disabled={productActionId === p._id}
+                        >
+                          {productActionId === p._id ? <Loader /> : 'Delete'}
+                        </button>
                       </div>
                     </div>
                   ))}
                 </div>
-                <button onClick={() => handleProductAdd({ name: 'New Product', price: 0 })}>Add Product</button>
+                <button
+                  onClick={() => handleProductAdd({ name: 'New Product', price: 0 })}
+                  disabled={productActionId === 'new'}
+                >
+                  {productActionId === 'new' ? <Loader /> : 'Add Product'}
+                </button>
               </motion.div>
             )}
             {user.role === 'business' && selectedTab === 'orders' && (
@@ -342,7 +382,9 @@ const Profile = () => {
                 <input type="text" name="address" value={editForm.address} onChange={(e) => setEditForm({ ...editForm, address: e.target.value })} />
               </label>
               <div className={styles.modalActions}>
-                <button type="submit">Save</button>
+                <button type="submit" disabled={editLoading}>
+                  {editLoading ? <Loader /> : 'Save'}
+                </button>
                 <button type="button" className={styles.cancel} onClick={() => setShowEdit(false)}>
                   Cancel
                 </button>
@@ -366,7 +408,9 @@ const Profile = () => {
                 <textarea name="bio" rows={4} value={verifyForm.bio} onChange={(e) => setVerifyForm({ ...verifyForm, bio: e.target.value })} />
               </label>
               <div className={styles.modalActions}>
-                <button type="submit">Submit</button>
+                <button type="submit" disabled={verifyLoading}>
+                  {verifyLoading ? <Loader /> : 'Submit'}
+                </button>
                 <button type="button" className={styles.cancel} onClick={() => setShowVerifyModal(false)}>
                   Cancel
                 </button>
@@ -398,7 +442,9 @@ const Profile = () => {
                 <input type="text" name="address" value={businessForm.address} onChange={(e) => setBusinessForm({ ...businessForm, address: e.target.value })} />
               </label>
               <div className={styles.modalActions}>
-                <button type="submit">Submit</button>
+                <button type="submit" disabled={businessLoading}>
+                  {businessLoading ? <Loader /> : 'Submit'}
+                </button>
                 <button type="button" className={styles.cancel} onClick={() => setShowBusinessModal(false)}>
                   Cancel
                 </button>
