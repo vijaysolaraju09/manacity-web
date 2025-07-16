@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import api from "../../api/client";
 import { sampleEvent } from "../../data/sampleData";
 import Shimmer from "../../components/Shimmer";
+import Loader from "../../components/Loader";
 import "./EventDetails.scss";
 import fallbackImage from "../../assets/no-image.svg";
 
@@ -25,6 +26,7 @@ const EventDetails = () => {
   const [countdown, setCountdown] = useState<string>("");
   const [leaderboard, setLeaderboard] = useState<Array<{ userId: string; name: string; score: number }>>([]);
   const [registered, setRegistered] = useState(false);
+  const [registering, setRegistering] = useState(false);
   const [message, setMessage] = useState<string>("");
 
   useEffect(() => {
@@ -69,13 +71,15 @@ const EventDetails = () => {
   };
 
   const handleRegister = () => {
+    setRegistering(true);
     api
       .post("/events/register", { eventId: id })
       .then(() => {
         setRegistered(true);
         setMessage("Registered successfully!");
       })
-      .catch(() => setMessage("Registration failed"));
+      .catch(() => setMessage("Registration failed"))
+      .finally(() => setRegistering(false));
   };
 
   if (loading || !event)
@@ -113,8 +117,12 @@ const EventDetails = () => {
           </div>
         )}
 
-        <button className="register-btn" onClick={handleRegister} disabled={registered}>
-          {registered ? "Registered" : "Register Now"}
+        <button
+          className="register-btn"
+          onClick={handleRegister}
+          disabled={registered || registering}
+        >
+          {registering ? <Loader /> : registered ? 'Registered' : 'Register Now'}
         </button>
 
         {message && <p className="message">{message}</p>}

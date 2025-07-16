@@ -8,12 +8,14 @@ import type { AppDispatch } from '../../store';
 import './LoginPage.scss';
 import logo from '../../assets/logo.png';
 import fallbackImage from '../../assets/no-image.svg';
+import Loader from '../../components/Loader';
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const [form, setForm] = useState({ phone: '', password: '' });
   const [errors, setErrors] = useState<{ phone?: string; password?: string; general?: string }>({});
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -33,6 +35,7 @@ const LoginPage = () => {
     if (Object.keys(newErrors).length > 0) return;
 
     try {
+      setLoading(true);
       const user = await login(form);
       dispatch(setUser(user));
       navigate('/home');
@@ -47,6 +50,8 @@ const LoginPage = () => {
         setErrors({ general: message });
       }
 
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -101,8 +106,9 @@ const LoginPage = () => {
             className="login-btn"
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.96 }}
+            disabled={loading}
           >
-            Login
+            {loading ? <Loader /> : 'Login'}
           </motion.button>
         </form>
 

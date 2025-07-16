@@ -6,6 +6,7 @@ import { AiFillCheckCircle, AiFillStar } from 'react-icons/ai';
 import api from '../../api/client';
 import { sampleVerifiedUsers } from '../../data/sampleHomeData';
 import Shimmer from '../../components/Shimmer';
+import Loader from '../../components/Loader';
 import type { RootState } from '../../store';
 import fallbackImage from '../../assets/no-image.svg';
 import styles from './VerifiedUsers.module.scss';
@@ -27,6 +28,7 @@ const VerifiedUsers = () => {
   const [search, setSearch] = useState('');
   const [professionFilter, setProfessionFilter] = useState('');
   const [locationFilter, setLocationFilter] = useState('');
+  const [requestingId, setRequestingId] = useState('');
   const navigate = useNavigate();
   const currentUser = useSelector((state: RootState) => state.user as any);
 
@@ -65,6 +67,7 @@ const VerifiedUsers = () => {
 
   const requestService = async (id: string) => {
     try {
+      setRequestingId(id);
       await api.post('/interests', {
         userId: (currentUser as any)._id,
         professionalId: id,
@@ -72,6 +75,8 @@ const VerifiedUsers = () => {
       alert('Request sent');
     } catch {
       alert('Failed to request');
+    } finally {
+      setRequestingId('');
     }
   };
 
@@ -165,8 +170,11 @@ const VerifiedUsers = () => {
                       Contact on WhatsApp
                     </a>
                   )}
-                  <button onClick={() => requestService(user._id)}>
-                    Request Service
+                  <button
+                    onClick={() => requestService(user._id)}
+                    disabled={requestingId === user._id}
+                  >
+                    {requestingId === user._id ? <Loader /> : 'Request Service'}
                   </button>
                 </div>
               </motion.div>
