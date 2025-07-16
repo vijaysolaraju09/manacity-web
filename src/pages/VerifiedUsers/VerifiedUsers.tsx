@@ -34,7 +34,7 @@ const VerifiedUsers = () => {
 
   useEffect(() => {
     api
-      .get('/verified-users')
+      .get('/verified/all')
       .then((res) => {
         if (Array.isArray(res.data) && res.data.length > 0) {
           setUsers(res.data);
@@ -68,10 +68,7 @@ const VerifiedUsers = () => {
   const requestService = async (id: string) => {
     try {
       setRequestingId(id);
-      await api.post('/interests', {
-        userId: (currentUser as any)._id,
-        professionalId: id,
-      });
+      await api.post(`/verified/interest/${id}`);
       alert('Request sent');
     } catch {
       alert('Failed to request');
