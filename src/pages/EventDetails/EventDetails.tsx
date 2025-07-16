@@ -73,7 +73,7 @@ const EventDetails = () => {
   const handleRegister = () => {
     setRegistering(true);
     api
-      .post("/events/register", { eventId: id })
+      .post(`/events/${id}/register`)
       .then(() => {
         setRegistered(true);
         setMessage("Registered successfully!");

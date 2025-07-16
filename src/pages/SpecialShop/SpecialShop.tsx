@@ -28,7 +28,7 @@ const SpecialShop = () => {
 
   useEffect(() => {
     api
-      .get('/special/products')
+      .get('/special-shop')
       .then((res) => {
         if (Array.isArray(res.data) && res.data.length > 0) {
           setProducts(res.data);

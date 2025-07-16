@@ -25,7 +25,7 @@ const VerifiedUserDetails = () => {
 
   useEffect(() => {
     api
-      .get(`/verified-users/${id}`)
+      .get(`/verified/${id}`)
       .then((res) => {
         if (res.data) {
           setUser(res.data);

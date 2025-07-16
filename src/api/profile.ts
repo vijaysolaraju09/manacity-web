@@ -26,21 +26,21 @@ export interface VerifyRequest {
 }
 
 export const getCurrentUser = async () => {
-  const res = await api.get('/users/me');
+  const res = await api.get('/user/profile');
   return res.data;
 };
 
 export const updateProfile = async (data: UpdateProfileData) => {
-  const res = await api.patch('/users/me', data);
+  const res = await api.put('/user/profile', data);
   return res.data;
 };
 
 export const requestVerification = async (data: VerifyRequest) => {
-  await api.post('/verify-requests', data);
+  await api.post('/verified/apply', data);
 };
 
 export const requestBusiness = async (data: BusinessRequest) => {
-  await api.post('/shops/request', data);
+  await api.post('/shops', data);
 };
 
 export const getMyProducts = async () => {
@@ -62,17 +62,17 @@ export const deleteProduct = async (id: string) => {
 };
 
 export const getBusinessOrders = async () => {
-  const res = await api.get('/orders/business');
+  const res = await api.get('/orders/received');
   return res.data;
 };
 
 export const getVerifiedServiceRequests = async () => {
-  const res = await api.get('/interests/verified-user');
+  const res = await api.get('/verified/requests');
   return res.data;
 };
 
 export const getUserOrders = async () => {
-  const res = await api.get('/orders/user');
+  const res = await api.get('/orders/my');
   return res.data;
 };
 

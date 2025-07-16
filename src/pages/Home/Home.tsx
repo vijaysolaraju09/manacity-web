@@ -25,10 +25,10 @@ const Home = () => {
 
   useEffect(() => {
     Promise.all([
-      api.get("/offers"),
-      api.get("/verified-users"),
-      api.get("/events"),
-      api.get("/special-products"),
+      api.get("/home/offers"),
+      api.get("/home/verified-users"),
+      api.get("/home/events"),
+      api.get("/home/special-products"),
     ])
       .then(([offRes, userRes, evRes, spRes]) => {
         setOffers(
